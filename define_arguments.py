@@ -2,6 +2,10 @@ import argparse
 
 
 def define_arguments() -> argparse.ArgumentParser:
+    """
+    Define the command-line arguments for the main script.
+    :return: The parser for the command-line arguments.
+    """
     argument_parser: argparse.ArgumentParser = argparse.ArgumentParser(
         prog="Glucose homeostasis algorithm data curation",
         description="Leverages the MIMIC-III dataset to generate data a glucose homeostasis algorithm.",
