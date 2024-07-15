@@ -23,5 +23,8 @@ def define_arguments() -> argparse.ArgumentParser:
                                  required=False)
     argument_parser.add_argument('--port', type=str, default="5432", help='The port used by the Postgres database.',
                                  required=False)
+    argument_parser.add_argument('-l', '--log', type=str, default="info",
+                                 help='The log level.',
+                                 required=False)
 
     return argument_parser

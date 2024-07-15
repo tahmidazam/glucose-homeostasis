@@ -1,6 +1,6 @@
 ## Prerequisites
 
-1. Clone this repository.
+1. Clone this repository
 2. Download the `.zip` file containing the dataset _Curated Data for Describing Blood Glucose Management in the
    Intensive Care Unit_ (version 1.0.1)
    from [physionet.org](https://physionet.org/content/glucose-management-mimic/1.0.1/#files-panel), and uncompress it in
