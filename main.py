@@ -26,6 +26,7 @@ if __name__ == '__main__':
     df_glucose_insulin: pd.DataFrame = read_glucose_insulin_dataset().sort_values(by=glucose_insulin_sort_values)
 
     # Extract unique identifiers for each ICU stay.
-    all_icustay_ids: [str] = extract_unique_icustay_ids(df_glucose_insulin=df_glucose_insulin)
+    all_icustay_ids: [str] = extract_unique_icustay_ids(df_glucose_insulin=df_glucose_insulin,
+                                                        argument_namespace=main_argument_namespace)
 
     exit(0)
