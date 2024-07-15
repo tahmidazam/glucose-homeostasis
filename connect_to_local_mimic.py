@@ -2,17 +2,15 @@ import argparse
 import psycopg2
 
 
-def connect_to_local_mimic(argument_parser: argparse.ArgumentParser):
+def connect_to_local_mimic(argument_namespace: argparse.Namespace):
     """
     Connects to the local MIMIC-III Postgres database.
-    :param argument_parser: The argument parser from which to source server hosting information and credentials.
+    :param argument_namespace: The argument parser from which to source server hosting information and credentials.
     :return: The connection to the MIMIC-III Postgres database.
     """
-    args: argparse.Namespace = argument_parser.parse_args()
-
     try:
         connection = psycopg2.connect(
-            f"dbname={args.dbname} user={args.user} password={args.password} host={args.host} port={args.port}")
+            f"dbname={argument_namespace.dbname} user={argument_namespace.user} password={argument_namespace.password} host={argument_namespace.host} port={argument_namespace.port}")
 
         print(f"Connected to {connection.info.dbname} as {connection.info.user}.")
 
