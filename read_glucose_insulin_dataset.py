@@ -13,10 +13,18 @@ def read_glucose_insulin_dataset() -> pd.DataFrame:
     """
     filepath = f"{GLUCOSE_INSULIN_REPOSITORY_DIRECTORY}/{GLUCOSE_INSULIN_PAIR_FILENAME}"
 
-    df: pd.DataFrame = pd.read_csv(filepath)
+    try:
+        df: pd.DataFrame = pd.read_csv(filepath)
+        print(
+            f"Successfully read {str(len(df))} entries from 'Curated Data for Describing Blood Glucose Management in the "
+            f"Intensive Care Unit'.")
 
-    print(
-        f"Successfully read {str(len(df))} entries from 'Curated Data for Describing Blood Glucose Management in the "
-        f"Intensive Care Unit'.")
-
-    return df
+        return df
+    except FileNotFoundError:
+        print(
+            f"The 'Curated Data for Describing Blood Glucose Management in the Intensive Care Unit' dataset could not "
+            f"be found at {filepath}. Please ensure that the uncompressed .zip file contents from "
+            f"https://physionet.org/content/glucose-management-mimic/1.0.1/#files-panel is in the same directory as "
+            f"this repository.")
+        
+        exit(1)
