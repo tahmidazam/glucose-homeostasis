@@ -26,7 +26,8 @@ def define_arguments() -> argparse.ArgumentParser:
     argument_parser.add_argument('-l', '--log', type=str, default="info", help='The log level.', required=False)
     argument_parser.add_argument('-m', '--max', type=int, default=-1,
                                  help='The maximum number of unique ICU stays identifiers. Defaults to -1; any '
-                                      'negative number will not limit the number of identifiers, and all will be used.',
+                                      'number less than or equal to zero will not limit the number of identifiers, '
+                                      'and all will be used.',
                                  required=False)
 
     return argument_parser

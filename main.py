@@ -1,8 +1,5 @@
 import argparse
-import logging
-
 import pandas as pd
-from tabulate import tabulate
 
 from column_keys import SUBJECT_ID_COLUMN_KEY, HOSPITAL_ADMISSION_ID_COLUMN_KEY, ICU_STAY_ID_COLUMN_KEY, \
     TIMER_COLUMN_KEY

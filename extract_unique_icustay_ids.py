@@ -14,7 +14,7 @@ def extract_unique_icu_stay_ids(df_glucose_insulin: pd.DataFrame, argument_names
     """
     ids: [int] = tuple(df_glucose_insulin[ICU_STAY_ID_COLUMN_KEY].unique())
 
-    if argument_namespace.max <= 0:
-        return ids
-    else:
+    if argument_namespace.max > 0:
         return ids[:argument_namespace.max]
+
+    return ids
