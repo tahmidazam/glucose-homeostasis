@@ -13,7 +13,6 @@ def query_table(
         id_column_key: str,
         ids: [numpy.int64],
         chunk_size: int,
-        description: str
 ) -> pd.DataFrame:
     """
     Query a table in the MIMIC-III database, filtering by a list of identifiers.
@@ -22,7 +21,6 @@ def query_table(
     :param id_column_key: The column key to filter by. Must be a column referring to an identifier.
     :param ids: The list of identifiers to form the predicate.
     :param chunk_size: The chunk size to use when querying the table.
-    :param description: The description of the query used for loggin purposes.
     :return: The resulting DataFrame from the query.
     """
     allowed_filter_id_column_keys: [str] = [SUBJECT_ID_COLUMN_KEY, HOSPITAL_ADMISSION_ID_COLUMN_KEY,
@@ -36,7 +34,7 @@ def query_table(
         with engine.connect() as connection:
             dfs: [pd.DataFrame] = []
 
-            for chunk_index in tqdm(range(0, len(ids), chunk_size), desc=description):
+            for chunk_index in tqdm(range(0, len(ids), chunk_size), desc=f"Querying '{table_name}'"):
                 chunk: [int] = tuple([int(n) for n in ids[chunk_index: chunk_index + chunk_size]])
 
                 query: str = f"""

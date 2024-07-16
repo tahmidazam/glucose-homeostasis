@@ -63,7 +63,6 @@ if __name__ == '__main__':
         id_column_key=SUBJECT_ID_COLUMN_KEY,
         ids=subject_ids,
         chunk_size=main_argument_namespace.chunk_size,
-        description="Querying admissions table"
     )
 
     df_patients: pd.DataFrame = query_table(
@@ -72,7 +71,6 @@ if __name__ == '__main__':
         id_column_key=SUBJECT_ID_COLUMN_KEY,
         ids=subject_ids,
         chunk_size=main_argument_namespace.chunk_size,
-        description="Querying patients table"
     )
 
     exit(0)
