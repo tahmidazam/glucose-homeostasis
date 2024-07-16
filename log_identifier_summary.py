@@ -1,9 +1,14 @@
 import logging
 
+import numpy
 from tabulate import tabulate
 
 
-def log_identifier_summary(icu_stay_ids: [int], subject_ids: [int], hospital_admission_ids: [int]):
+def log_identifier_summary(
+        icu_stay_ids: [numpy.int64],
+        subject_ids: [numpy.int64],
+        hospital_admission_ids: [numpy.int64]
+):
     """
     Logs the summary of unique identifiers.
     :param icu_stay_ids: The unique ICU stay identifiers.

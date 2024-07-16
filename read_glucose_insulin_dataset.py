@@ -1,3 +1,5 @@
+import argparse
+
 import pandas as pd
 import logging
 
@@ -18,7 +20,7 @@ def read_glucose_insulin_dataset() -> pd.DataFrame:
         df: pd.DataFrame = pd.read_csv(filepath)
 
         logging.info(
-            f"Successfully read {str(len(df))} entries from 'Curated Data for Describing Blood Glucose Management in "
+            f"Successfully read {str(len(df))} rows from 'Curated Data for Describing Blood Glucose Management in "
             f"the Intensive Care Unit'.")
 
         return df
