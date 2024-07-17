@@ -2,7 +2,7 @@ import argparse
 import pandas as pd
 import logging
 
-from column_keys import ICU_STAY_ID_COLUMN_KEY
+from column_keys import ColumnKey
 
 
 def extract_unique_icu_stay_ids(df_glucose_insulin: pd.DataFrame, max_identifier_count: int) -> [int]:
@@ -12,7 +12,7 @@ def extract_unique_icu_stay_ids(df_glucose_insulin: pd.DataFrame, max_identifier
     :param df_glucose_insulin: The glucose insulin dataset dataframe.
     :return: A list of unique ICU stay identifiers.
     """
-    ids: [int] = tuple(df_glucose_insulin[ICU_STAY_ID_COLUMN_KEY].unique())
+    ids: [int] = tuple(df_glucose_insulin[ColumnKey.ICU_STAY_ID.value].unique())
 
     if max_identifier_count > 0:
         return ids[:max_identifier_count]

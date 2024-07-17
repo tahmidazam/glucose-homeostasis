@@ -4,13 +4,14 @@ import pandas as pd
 import sqlalchemy
 from tqdm import tqdm
 
-from column_keys import SUBJECT_ID_COLUMN_KEY, HOSPITAL_ADMISSION_ID_COLUMN_KEY, ICU_STAY_ID_COLUMN_KEY
+from column_keys import ColumnKey
+from table_name import TableName
 
 
 def query_table(
         engine: sqlalchemy.Engine,
-        table_name: str,
-        id_column_key: str,
+        table_name: TableName,
+        id_column_key: ColumnKey,
         ids: [numpy.int64],
         chunk_size: int,
 ) -> pd.DataFrame:
@@ -23,24 +24,26 @@ def query_table(
     :param chunk_size: The chunk size to use when querying the table.
     :return: The resulting DataFrame from the query.
     """
-    allowed_filter_id_column_keys: [str] = [SUBJECT_ID_COLUMN_KEY, HOSPITAL_ADMISSION_ID_COLUMN_KEY,
-                                            ICU_STAY_ID_COLUMN_KEY]
+    allowed_filter_id_column_keys: [ColumnKey] = [ColumnKey.SUBJECT_ID,
+                                                  ColumnKey.HOSPITAL_ADMISSION_ID,
+                                                  ColumnKey.ICU_STAY_ID]
 
     if id_column_key not in allowed_filter_id_column_keys:
-        raise ValueError(f"Argument filter_id_column_key must be in [{", ".join(allowed_filter_id_column_keys)}], "
-                         f"received {id_column_key}.")
+        logging.critical(
+            f"Argument filter_id_column_key must be in [{", ".join([str(i.value) for i in allowed_filter_id_column_keys])}], "
+            f"received {id_column_key}.")
 
     try:
         with engine.connect() as connection:
             dfs: [pd.DataFrame] = []
 
-            for chunk_index in tqdm(range(0, len(ids), chunk_size), desc=f"Querying '{table_name}'"):
+            for chunk_index in tqdm(range(0, len(ids), chunk_size), desc=f"Querying '{table_name.value}'"):
                 chunk: [int] = tuple([int(n) for n in ids[chunk_index: chunk_index + chunk_size]])
 
                 query: str = f"""
                     SELECT *
-                    FROM mimiciii.{table_name}
-                    WHERE {id_column_key} IN {chunk}
+                    FROM mimiciii.{table_name.value}
+                    WHERE {id_column_key.value} IN {chunk}
                     """
 
                 df_chunk: pd.DataFrame = pd.read_sql_query(sql=query, con=connection, params=chunk)
@@ -52,3 +55,5 @@ def query_table(
         logging.critical(
             f"Connection to server '{engine.url.database}' failed. Ensure the server is running locally and accepting "
             f"connections on the selected socket.")
+
+        exit(1)

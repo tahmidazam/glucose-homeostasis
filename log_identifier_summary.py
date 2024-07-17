@@ -17,7 +17,7 @@ def log_identifier_summary(
     """
     table: str = tabulate([["ICU stay", len(icu_stay_ids)], ["Subject", len(subject_ids)],
                            ["Hospital admission", len(hospital_admission_ids)]], headers=["Identifier", "Count"],
-                          tablefmt="pretty")
+                          tablefmt="pretty", colalign=("right", "left"))
 
     # Newline prefixed to prevent the logging prefix from offsetting top table border.
     logging.info("\n" + table)
