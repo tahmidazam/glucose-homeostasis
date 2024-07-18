@@ -1,7 +1,7 @@
 import numpy
 
-from column_keys import ColumnKey
-from table_name import TableName
+from constants.column_keys import ColumnKey
+from constants.table_name import TableName
 
 WEIGHT_ITEM_IDS: tuple[int, int, int, int, int, int, int] = (580, 581, 763, 226846, 224639, 226512, 226531)
 WEIGHT_CONVERSION_FACTORS = {

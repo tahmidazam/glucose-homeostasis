@@ -5,7 +5,7 @@ import numpy
 import pandas as pd
 import sqlalchemy
 
-from column_keys import ColumnKey
+from constants.column_keys import ColumnKey
 from query_heights import query_heights
 from query_weights import query_weights
 

@@ -10,6 +10,23 @@
    database.
 4. Set up your Python virtual environment and install required packages using `pip install -r requirements.txt`.
 
+## Documentation
+
+- [Calculating weights and heights](docs/calculating-weights-and-heights.md)
+
+## Directories
+
+| directory       | description                                                                                                                                       |
+|-----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| `cli`           | Defining the command line interface                                                                                                               |
+| `constants`     | Enumerations containing project constants (e.g., table names, column keys, and filters)                                                           |
+| `db-connection` | Files relating to database connection                                                                                                             |
+| `df-cache/`     | Cached dataframes from large SQL queries (see [caching dataframes](#Caching dataframes))                                                          |
+| `df-utils`      | Utility functions that change the shape of dataframes (e.g., merging, type-casting, indexing)                                                     |
+| `docs/`         | Documentation articles.                                                                                                                           |
+| `logging`       | Logging helper functions.                                                                                                                         |
+| `query`         | SQL queries from the MIMIC-III database and reading files from _Curated Data for Describing Blood Glucose Management in the Intensive Care Unit_. |
+
 ## Caching dataframes
 
 The dataframes from large SQL queries are cached in the `df-cache/` directory. To clear the cache, run `rm -rf df-cache`

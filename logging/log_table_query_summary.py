@@ -3,7 +3,7 @@ import logging
 import pandas as pd
 from tabulate import tabulate
 
-from table_name import TableName
+from constants.table_name import TableName
 
 
 def log_table_query_summary(

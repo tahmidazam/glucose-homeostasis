@@ -2,10 +2,10 @@ import numpy
 import pandas as pd
 import sqlalchemy
 
-from column_keys import ColumnKey
-from log_table_query_summary import log_table_query_summary
+from constants.column_keys import ColumnKey
+from logging.log_table_query_summary import log_table_query_summary
 from query_table import query_table
-from table_name import TableName
+from constants.table_name import TableName
 
 
 def query_tables(

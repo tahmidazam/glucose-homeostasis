@@ -4,12 +4,12 @@ import numpy
 import pandas as pd
 import sqlalchemy
 
-from define_arguments import define_arguments
-from query_heights_weights import query_heights_weights
-from read_glucose_insulin_dataset import read_glucose_insulin_dataset
-from set_log_level import set_log_level
+from cli.define_arguments import define_arguments
+from query.query_heights_weights import query_heights_weights
+from query.read_glucose_insulin_dataset import read_glucose_insulin_dataset
+from logging.set_log_level import set_log_level
 from url_from_argument_namespace import url_from_argument_namespace
-from verify_cache_directory import verify_cache_directory
+from query.verify_cache_directory import verify_cache_directory
 
 if __name__ == '__main__':
     # Define command-line arguments.

@@ -2,10 +2,10 @@ import pandas as pd
 import sqlalchemy
 from tqdm import tqdm
 
-from column_keys import ColumnKey
+from constants.column_keys import ColumnKey
 from db_connection_critical_error import db_connection_critical_error
 from generate_weights_sql_query import generate_weights_sql_query
-from table_name import TableName
+from constants.table_name import TableName
 
 
 def query_weights(engine: sqlalchemy.Engine, subject_ids: tuple, chunk_size: int) -> pd.DataFrame:

@@ -1,7 +1,7 @@
 import numpy
 
-from column_keys import ColumnKey
-from table_name import TableName
+from constants.column_keys import ColumnKey
+from constants.table_name import TableName
 
 HEIGHT_ITEM_IDS = (1394, 226707, 226730)
 HEIGHT_CONVERSION_FACTORS = {
