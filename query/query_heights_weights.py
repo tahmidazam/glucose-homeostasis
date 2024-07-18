@@ -12,7 +12,7 @@ from query.query_weights import query_weights
 
 def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.int64, ...],
                           chunk_size: int) -> pd.DataFrame:
-    df_heights_weights_cache = Path("df-cache/df_heights_weights.csv")
+    df_heights_weights_cache = Path("df_cache/df_heights_weights.csv")
 
     if df_heights_weights_cache.is_file():
         df_heights_weights = pd.read_csv(df_heights_weights_cache)
