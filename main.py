@@ -1,23 +1,15 @@
 import argparse
-import logging
-from pathlib import Path
 
 import numpy
 import pandas as pd
 import sqlalchemy
-import matplotlib.pyplot as plt
-from tabulate import tabulate
 
-from calculate_age import calculate_age
-from column_keys import ColumnKey
 from define_arguments import define_arguments
-from filter_info import FilterInfo
-from generate_df_demographics import generate_df_demographics
 from query_heights_weights import query_heights_weights
-from query_tables import query_tables
 from read_glucose_insulin_dataset import read_glucose_insulin_dataset
 from set_log_level import set_log_level
 from url_from_argument_namespace import url_from_argument_namespace
+from verify_cache_directory import verify_cache_directory
 
 if __name__ == '__main__':
     # Define command-line arguments.
@@ -30,6 +22,9 @@ if __name__ == '__main__':
 
     # Set log level.
     set_log_level(level=main_argument_namespace.log_level)
+
+    # Create cache directory if it does not exist.
+    verify_cache_directory()
 
     # Reading, sort and extract unique identifiers from the glucose insulin dataset.
     df_glucose_insulin: pd.DataFrame

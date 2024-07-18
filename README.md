@@ -10,6 +10,12 @@
    database.
 4. Set up your Python virtual environment and install required packages using `pip install -r requirements.txt`.
 
+## Caching dataframes
+
+The dataframes from large SQL queries are cached in the `df-cache/` directory. To clear the cache, run `rm -rf df-cache`
+which forcibly and recursively deletes the contents of the cache directory. The directory is regenerated if it does not
+exist.
+
 ## Bibliography
 
 - Johnson A, Pollard T, Mark R. MIMIC-III Clinical Database (version 1.4). PhysioNet. 2016. Available
