@@ -5,6 +5,7 @@ import sqlalchemy
 from tqdm import tqdm
 
 from column_keys import ColumnKey
+from db_connection_critical_error import db_connection_critical_error
 from table_name import TableName
 
 
@@ -24,14 +25,17 @@ def query_table(
     :param chunk_size: The chunk size to use when querying the table.
     :return: The resulting DataFrame from the query.
     """
-    allowed_filter_id_column_keys: [ColumnKey] = [ColumnKey.SUBJECT_ID,
-                                                  ColumnKey.HOSPITAL_ADMISSION_ID,
-                                                  ColumnKey.ICU_STAY_ID]
+    allowed_filter_id_column_keys: [ColumnKey] = [
+        ColumnKey.SUBJECT_ID,
+        ColumnKey.HOSPITAL_ADMISSION_ID,
+        ColumnKey.ICU_STAY_ID
+    ]
 
     if id_column_key not in allowed_filter_id_column_keys:
+        formatted_key_array: str = ", ".join([str(i.value) for i in allowed_filter_id_column_keys])
+
         logging.critical(
-            f"Argument filter_id_column_key must be in [{", ".join([str(i.value) for i in allowed_filter_id_column_keys])}], "
-            f"received {id_column_key}.")
+            f"Argument filter_id_column_key must be in [{formatted_key_array}], received {id_column_key}.")
 
     try:
         with engine.connect() as connection:
@@ -46,14 +50,9 @@ def query_table(
                     WHERE {id_column_key.value} IN {chunk}
                     """
 
-                df_chunk: pd.DataFrame = pd.read_sql_query(sql=query, con=connection, params=chunk)
-
+                df_chunk: pd.DataFrame = pd.read_sql_query(sql=query, con=connection)
                 dfs.append(df_chunk)
 
             return pd.concat(dfs)
     except sqlalchemy.exc.OperationalError:
-        logging.critical(
-            f"Connection to server '{engine.url.database}' failed. Ensure the server is running locally and accepting "
-            f"connections on the selected socket.")
-
-        exit(1)
+        db_connection_critical_error(engine=engine)

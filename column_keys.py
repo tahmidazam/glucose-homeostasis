@@ -9,6 +9,11 @@ class ColumnKey(Enum):
     IN_TIME: str = "intime"
     DATE_OF_BIRTH: str = "dob"
     LENGTH_OF_STAY: str = "los"
+    VALUE_NUMERICAL: str = "valuenum"
+    CHART_TIME: str = "charttime"
+    ITEM_ID: str = "itemid"
 
     # Custom column keys (i.e., from calculation or processing).
     AGE: str = "age"
+    HEIGHT: str = "height"
+    WEIGHT: str = "weight"
