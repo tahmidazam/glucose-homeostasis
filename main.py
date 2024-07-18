@@ -5,10 +5,15 @@ import pandas as pd
 import sqlalchemy
 
 from cli.define_arguments import define_arguments
+from constants.column_keys import ColumnKey
+from constants.filter_info import FilterInfo
+from df_utils.calculate_age import calculate_age
+from df_utils.generate_df_demographics import generate_df_demographics
 from query.query_heights_weights import query_heights_weights
+from query.query_tables import query_tables
 from query.read_glucose_insulin_dataset import read_glucose_insulin_dataset
-from logging.set_log_level import set_log_level
-from url_from_argument_namespace import url_from_argument_namespace
+from logging_utils.set_log_level import set_log_level
+from db_connection.url_from_argument_namespace import url_from_argument_namespace
 from query.verify_cache_directory import verify_cache_directory
 
 if __name__ == '__main__':
@@ -36,40 +41,44 @@ if __name__ == '__main__':
         max_identifier_count=main_argument_namespace.max_identifier_count
     )
 
-    # # Query the database tables, filtering by the unique identifiers
-    # df_admissions: pd.DataFrame
-    # df_patients: pd.DataFrame
-    # df_diagnoses_icd: pd.DataFrame
-    # df_icu_stays: pd.DataFrame
-    #
-    # df_admissions, df_patients, df_diagnoses_icd, df_icu_stays = query_tables(
-    #     engine=engine,
-    #     subject_ids=subject_ids,
-    #     icu_stay_ids=icu_stay_ids,
-    #     chunk_size=main_argument_namespace.chunk_size
-    # )
-    #
-    # # Generate the demographics dataframe from merging tables.
-    # df_demographics: pd.DataFrame = generate_df_demographics(
-    #     df_icu_stays=df_icu_stays,
-    #     df_admissions=df_admissions,
-    #     df_patients=df_patients
-    # )
-    #
-    # # Calculate the age of the patients.
-    # df_demographics: pd.DataFrame = calculate_age(df_demographics)
-    #
-    # # Filter the demographics dataframe by age.
-    # df_demographics: pd.DataFrame = df_demographics[
-    #     (df_demographics[ColumnKey.AGE.value] > FilterInfo.AGE_LOWER_BOUND.value) & (
-    #             df_demographics[ColumnKey.AGE.value] < FilterInfo.AGE_UPPER_BOUND.value)]
-    #
-    # # Filter the demographics dataframe by length of stay.
-    # df_demographics: pd.DataFrame = df_demographics[
-    #     (df_demographics[ColumnKey.LENGTH_OF_STAY.value] > FilterInfo.LENGTH_OF_STAY_LOWER_BOUND.value) & (
-    #             df_demographics[ColumnKey.LENGTH_OF_STAY.value] < FilterInfo.LENGTH_OF_STAY_UPPER_BOUND.value)]
+    # Query the database tables, filtering by the unique identifiers
+    df_admissions: pd.DataFrame
+    df_patients: pd.DataFrame
+    df_diagnoses_icd: pd.DataFrame
+    df_icu_stays: pd.DataFrame
 
-    df_weights_heights = query_heights_weights(engine=engine, subject_ids=subject_ids,
-                                               chunk_size=main_argument_namespace.chunk_size)
+    df_admissions, df_patients, df_diagnoses_icd, df_icu_stays = query_tables(
+        engine=engine,
+        subject_ids=subject_ids,
+        icu_stay_ids=icu_stay_ids,
+        chunk_size=main_argument_namespace.chunk_size
+    )
+
+    # Generate the demographics dataframe from merging tables.
+    df_demographics: pd.DataFrame = generate_df_demographics(
+        df_icu_stays=df_icu_stays,
+        df_admissions=df_admissions,
+        df_patients=df_patients
+    )
+
+    # Calculate the age of the patients.
+    df_demographics: pd.DataFrame = calculate_age(df_demographics)
+
+    # Filter the demographics dataframe by age.
+    df_demographics: pd.DataFrame = df_demographics[
+        (df_demographics[ColumnKey.AGE.value] > FilterInfo.AGE_LOWER_BOUND.value) & (
+                df_demographics[ColumnKey.AGE.value] < FilterInfo.AGE_UPPER_BOUND.value)]
+
+    # Filter the demographics dataframe by length of stay.
+    df_demographics: pd.DataFrame = df_demographics[
+        (df_demographics[ColumnKey.LENGTH_OF_STAY.value] > FilterInfo.LENGTH_OF_STAY_LOWER_BOUND.value) & (
+                df_demographics[ColumnKey.LENGTH_OF_STAY.value] < FilterInfo.LENGTH_OF_STAY_UPPER_BOUND.value)]
+
+    # Query the heights and weights of the patients.
+    df_weights_heights = query_heights_weights(
+        engine=engine,
+        subject_ids=subject_ids,
+        chunk_size=main_argument_namespace.chunk_size
+    )
 
     exit(0)

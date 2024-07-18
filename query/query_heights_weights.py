@@ -6,8 +6,8 @@ import pandas as pd
 import sqlalchemy
 
 from constants.column_keys import ColumnKey
-from query_heights import query_heights
-from query_weights import query_weights
+from query.query_heights import query_heights
+from query.query_weights import query_weights
 
 
 def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.int64, ...],

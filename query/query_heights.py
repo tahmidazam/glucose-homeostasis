@@ -3,9 +3,9 @@ import sqlalchemy
 from tqdm import tqdm
 
 from constants.column_keys import ColumnKey
-from db_connection_critical_error import db_connection_critical_error
-from generate_heights_sql_query import generate_heights_sql_query
+from query.generate_heights_sql_query import generate_heights_sql_query
 from constants.table_name import TableName
+from db_connection.db_connection_critical_error import db_connection_critical_error
 
 
 def query_heights(engine: sqlalchemy.Engine, subject_ids: tuple, chunk_size: int) -> pd.DataFrame:

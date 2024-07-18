@@ -16,6 +16,11 @@ WEIGHT_CONVERSION_FACTORS = {
 
 
 def generate_weights_sql_query(subject_ids: tuple[numpy.int64, ...]) -> str:
+    """
+    Generates the SQL query to extract weights from the CHARTEVENTS table.
+    :param subject_ids: The subject identifiers.
+    :return: The SQL query.
+    """
     subject_ids: tuple[int, ...] = tuple([int(n) for n in subject_ids])
 
     return f"""SELECT

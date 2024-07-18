@@ -3,8 +3,8 @@ import sqlalchemy
 from tqdm import tqdm
 
 from constants.column_keys import ColumnKey
-from db_connection_critical_error import db_connection_critical_error
-from generate_weights_sql_query import generate_weights_sql_query
+from db_connection.db_connection_critical_error import db_connection_critical_error
+from query.generate_weights_sql_query import generate_weights_sql_query
 from constants.table_name import TableName
 
 

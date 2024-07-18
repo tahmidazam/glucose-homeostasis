@@ -5,7 +5,7 @@ import sqlalchemy
 from tqdm import tqdm
 
 from constants.column_keys import ColumnKey
-from db_connection_critical_error import db_connection_critical_error
+from db_connection.db_connection_critical_error import db_connection_critical_error
 from constants.table_name import TableName
 
 

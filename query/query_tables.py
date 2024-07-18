@@ -3,8 +3,8 @@ import pandas as pd
 import sqlalchemy
 
 from constants.column_keys import ColumnKey
-from logging.log_table_query_summary import log_table_query_summary
-from query_table import query_table
+from logging_utils.log_table_query_summary import log_table_query_summary
+from query.query_table import query_table
 from constants.table_name import TableName
 
 

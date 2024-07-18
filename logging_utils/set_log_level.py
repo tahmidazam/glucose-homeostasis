@@ -1,7 +1,7 @@
 import argparse
 import logging
 
-from string_to_log_level import string_to_log_level
+from logging_utils.string_to_log_level import string_to_log_level
 
 
 def set_log_level(level: str):
