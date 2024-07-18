@@ -21,7 +21,7 @@
 | `cli`           | Defining the command line interface                                                                                                               |
 | `constants`     | Enumerations containing project constants (e.g., table names, column keys, and filters)                                                           |
 | `db-connection` | Files relating to database connection                                                                                                             |
-| `df-cache/`     | Cached dataframes from large SQL queries (see [caching dataframes](#Caching dataframes))                                                          |
+| `df-cache/`     | Cached dataframes from large SQL queries                                                                                                          |
 | `df-utils`      | Utility functions that change the shape of dataframes (e.g., merging, type-casting, indexing)                                                     |
 | `docs/`         | Documentation articles.                                                                                                                           |
 | `logging`       | Logging helper functions.                                                                                                                         |
