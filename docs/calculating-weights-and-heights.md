@@ -59,7 +59,7 @@ WEIGHT_ITEM_IDS = (580, 581, 763, 226846, 224639, 226512, 226531)
 
 ### Units of measure
 
-The units of measure for all selected item identifers are kilograms, with the exception of `226531` which is in pounds.
+The units of measure for all selected item identifers are kilograms, with the exception of `226531` which is in pounds. To enable conversion, the conversion factor to the kilogram was declared for each item identifier:
 
 ```python
 WEIGHT_CONVERSION_FACTORS = {
