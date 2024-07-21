@@ -13,6 +13,7 @@
 ## Documentation
 
 - [Calculating weights and heights](docs/calculating-weights-and-heights.md)
+- [Caching](docs/caching.md)
 
 ## Command-line arguments
 
