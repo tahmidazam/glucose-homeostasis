@@ -43,12 +43,6 @@ The argument declaration can be found in [`/cli/define_arguments.py`](/cli/defin
 | `logging`       | Logging helper functions.                                                                                                                                            |
 | `query`         | SQL queries from the MIMIC-III database and reading files from _Curated Data for Describing Blood Glucose Management in the Intensive Care Unit_.                    |
 
-## Caching dataframes
-
-The dataframes from large SQL queries are cached in the `df-cache/` directory. To clear the cache, run `rm -rf df-cache`
-which forcibly and recursively deletes the contents of the cache directory. The directory is regenerated if it does not
-exist.
-
 ## Bibliography
 
 - Johnson A, Pollard T, Mark R. MIMIC-III Clinical Database (version 1.4). PhysioNet. 2016. Available
