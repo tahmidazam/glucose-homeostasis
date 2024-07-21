@@ -14,6 +14,21 @@
 
 - [Calculating weights and heights](docs/calculating-weights-and-heights.md)
 
+## Command-line arguments
+
+| name or flags                  | type  | default     | description                                                                                                                                               |
+|--------------------------------|-------|-------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-d`, `--dbname`               | `str` | `mimic`     | The name of the Postgres database.                                                                                                                        |
+| `--host`                       | `str` | `localhost` | The host of the Postgres database.                                                                                                                        |
+| `--port`                       | `str` | `5432`      | The port used by the Postgres database.                                                                                                                   |
+| `-u`, `--user`                 | `str` | `mimicuser` | Username for the Postgres database.                                                                                                                       |
+| `-p`, `--password`             | `str` | `""`        | Password for the Postgres database.                                                                                                                       |
+| `-l`, `--log-level`            | `str` | `warning`   | The log level.                                                                                                                                            |
+| `-m`, `--max-identifier-count` | `int` | `-1`        | The maximum number of unique ICU stays identifiers. Any number less than or equal to zero will not limit the number of identifiers, and all will be used. |
+| `-c`, `--chunk_size`           | `int` | `1000`      | The chunk size to use when querying the database.                                                                                                         |
+
+The argument declaration can be found in [`/cli/define_arguments.py`](/cli/define_arguments.py).
+
 ## Directories
 
 | directory       | description                                                                                                                                                          |

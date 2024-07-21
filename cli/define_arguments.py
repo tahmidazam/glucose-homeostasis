@@ -12,7 +12,7 @@ def define_arguments() -> argparse.ArgumentParser:
         epilog="Link to GitHub repository: https://github.com/tahmidazam/glucose-homeostasis."
     )
 
-    argument_parser.add_argument('-d', '--dbname', type=str, default="mimic", help='Name of the Postgres database.',
+    argument_parser.add_argument('-d', '--dbname', type=str, default="mimic", help='The name of the Postgres database.',
                                  required=False)
     argument_parser.add_argument('-u', '--user', type=str, default="mimicuser",
                                  help='Username for the Postgres database.',
