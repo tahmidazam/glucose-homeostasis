@@ -1,8 +1,10 @@
 import argparse
+import logging
 
 import numpy
 import pandas as pd
 import sqlalchemy
+from matplotlib import pyplot as plt
 
 from cli.define_arguments import define_arguments
 from constants.column_keys import ColumnKey
@@ -75,10 +77,35 @@ if __name__ == '__main__':
                 df_demographics[ColumnKey.LENGTH_OF_STAY.value] < FilterInfo.LENGTH_OF_STAY_UPPER_BOUND.value)]
 
     # Query the heights and weights of the patients.
-    df_weights_heights = query_heights_weights(
+    df_heights_weights = query_heights_weights(
         engine=engine,
         subject_ids=subject_ids,
         chunk_size=main_argument_namespace.chunk_size
     )
+
+    # Convert the chart time to a datetime type.
+    df_heights_weights[ColumnKey.CHART_TIME.value] = pd.to_datetime(
+        df_heights_weights[ColumnKey.CHART_TIME.value])
+
+    x = df_heights_weights[df_heights_weights[ColumnKey.CHART_TIME.value].isnull()]
+
+    # Forward- and back-fill weights and heights.
+    df_heights_weights[ColumnKey.HEIGHT.value] = df_heights_weights.groupby(ColumnKey.ICU_STAY_ID.value)[
+        ColumnKey.HEIGHT.value].ffill().bfill()
+
+    df_heights_weights[ColumnKey.WEIGHT.value] = df_heights_weights.groupby(ColumnKey.ICU_STAY_ID.value)[
+        ColumnKey.WEIGHT.value].ffill().bfill()
+
+    # Take the last (i.e., most recent) height and weight for each ICU stay.
+    df_heights_weights = pd.merge(df_glucose_insulin.sort_values(
+        by=[ColumnKey.SUBJECT_ID.value, ColumnKey.ICU_STAY_ID.value, ColumnKey.TIMER.value], inplace=False).groupby(
+        ColumnKey.ICU_STAY_ID.value).first().reset_index()[[ColumnKey.SUBJECT_ID.value, ColumnKey.ICU_STAY_ID.value]],
+                                  df_heights_weights, on=[ColumnKey.ICU_STAY_ID.value, ColumnKey.SUBJECT_ID.value],
+                                  how='left')
+
+    df_heights_weights = df_heights_weights.dropna(subset=[ColumnKey.CHART_TIME.value])
+
+    df_glucose_insulin_missing_heights_weights = df_heights_weights[
+        df_heights_weights[ColumnKey.HEIGHT.value].isnull() | df_heights_weights[ColumnKey.WEIGHT.value].isnull()]
 
     exit(0)

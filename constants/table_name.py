@@ -28,3 +28,6 @@ class TableName(Enum):
     PROCEDURES_ICD: str = "PROCEDURES_ICD"
     SERVICES: str = "SERVICES"
     TRANSFERS: str = "TRANSFERS"
+
+    # Custom table names (i.e., from calculation or processing).
+    CONVERTED_VALUES: str = "CONVERTED_VALUES"

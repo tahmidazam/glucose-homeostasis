@@ -1,4 +1,6 @@
 import logging
+from pathlib import Path
+
 import numpy
 import pandas as pd
 import sqlalchemy
@@ -37,11 +39,23 @@ def query_table(
         logging.critical(
             f"Argument filter_id_column_key must be in [{formatted_key_array}], received {id_column_key}.")
 
+        exit(1)
+
+    cache = Path(f"df_cache/df_{table_name.value.lower()}.feather")
+
+    if cache.is_file():
+        df = pd.read_feather(cache)
+
+        logging.info(f"Loaded {table_name.value} from cache ({cache}).")
+
+        return df
+
     try:
         with engine.connect() as connection:
             dfs: [pd.DataFrame] = []
 
-            for chunk_index in tqdm(range(0, len(ids), chunk_size), desc=f"Querying '{table_name.value}'"):
+            for chunk_index in tqdm(range(0, len(ids), chunk_size),
+                                    desc=f"No cache found, querying '{table_name.value}' and saving to {cache}"):
                 chunk: [int] = tuple([int(n) for n in ids[chunk_index: chunk_index + chunk_size]])
 
                 query: str = f"""
@@ -53,6 +67,9 @@ def query_table(
                 df_chunk: pd.DataFrame = pd.read_sql_query(sql=query, con=connection)
                 dfs.append(df_chunk)
 
-            return pd.concat(dfs)
+            df: pd.DataFrame = pd.concat(dfs)
+            df.to_feather(path=cache)
+
+            return df
     except sqlalchemy.exc.OperationalError:
         db_connection_critical_error(engine=engine)
