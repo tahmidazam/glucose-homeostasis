@@ -6,16 +6,20 @@ import pandas as pd
 import sqlalchemy
 from tqdm import tqdm
 
-from constants.column_keys import ColumnKey
 from constants.table_name import TableName
 from db_connection.db_connection_critical_error import db_connection_critical_error
 from query.generate_heights_weights_query import generate_heights_weights_query
-from query.query_heights import query_heights
-from query.query_weights import query_weights
 
 
 def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.int64, ...],
                           chunk_size: int) -> pd.DataFrame:
+    """
+    Query the heights and weights from the chart events table, caching the result.
+    :param engine: The SQLAlchemy engine to use to connect to the MIMIC-III database.
+    :param subject_ids: The subject identifiers to include.
+    :param chunk_size: The chunk size to use when querying the table.
+    :return: The resulting DataFrame from the query.
+    """
     cache = Path("df_cache/df_heights_weights.feather")
 
     if cache.is_file():
@@ -35,7 +39,7 @@ def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.in
 
             for chunk in tqdm(chunks,
                               desc=f"No cache found, querying {TableName.CHARTEVENTS.value} and saving to {cache}"):
-                df_heights_weights = pd.concat([df_heights_weights, chunk.dropna()])
+                df_heights_weights = pd.concat([df_heights_weights, chunk])
 
             df_heights_weights.to_feather(path=cache)
 

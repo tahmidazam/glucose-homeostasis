@@ -97,15 +97,11 @@ if __name__ == '__main__':
         ColumnKey.WEIGHT.value].ffill().bfill()
 
     # Take the last (i.e., most recent) height and weight for each ICU stay.
-    df_heights_weights = pd.merge(df_glucose_insulin.sort_values(
-        by=[ColumnKey.SUBJECT_ID.value, ColumnKey.ICU_STAY_ID.value, ColumnKey.TIMER.value], inplace=False).groupby(
-        ColumnKey.ICU_STAY_ID.value).first().reset_index()[[ColumnKey.SUBJECT_ID.value, ColumnKey.ICU_STAY_ID.value]],
-                                  df_heights_weights, on=[ColumnKey.ICU_STAY_ID.value, ColumnKey.SUBJECT_ID.value],
-                                  how='left')
+    df_demographics = pd.merge(df_demographics, df_heights_weights,
+                               on=[ColumnKey.ICU_STAY_ID.value, ColumnKey.SUBJECT_ID.value],
+                               how='left')
 
-    df_heights_weights = df_heights_weights.dropna(subset=[ColumnKey.CHART_TIME.value])
-
-    df_glucose_insulin_missing_heights_weights = df_heights_weights[
-        df_heights_weights[ColumnKey.HEIGHT.value].isnull() | df_heights_weights[ColumnKey.WEIGHT.value].isnull()]
+    # Drop rows with missing height or weight.
+    df_demographics.dropna(subset=[ColumnKey.HEIGHT.value, ColumnKey.WEIGHT.value], inplace=True)
 
     exit(0)
