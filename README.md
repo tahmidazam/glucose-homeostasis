@@ -9,6 +9,7 @@
    install [MIMIC-III](https://physionet.org/content/mimiciii/1.4/) to a local [PostgreSQL](https://www.postgresql.org)
    database.
 4. Set up your Python virtual environment and install required packages using `pip install -r requirements.txt`.
+5. Run [`main.py`](main.py).
 
 ## Documentation
 
