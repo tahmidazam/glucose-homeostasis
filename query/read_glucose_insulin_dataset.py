@@ -1,10 +1,11 @@
+from pathlib import Path
+
 import numpy
 import pandas as pd
 import logging
 
 from constants.column_keys import ColumnKey
 from df_utils.extract_unique_icustay_ids import extract_unique_icu_stay_ids
-from logging_utils.log_identifier_summary import log_identifier_summary
 
 # The directory from the uncompressed .zip file contents.
 GLUCOSE_INSULIN_REPOSITORY_DIRECTORY = (
@@ -38,7 +39,7 @@ def read_glucose_insulin_dataset(
     :return: The dataset as a dataframe, the unique ICU stay identifiers, the unique subject identifiers, and the unique
     hospital admission identifiers.
     """
-    filepath = f"{GLUCOSE_INSULIN_REPOSITORY_DIRECTORY}/{GLUCOSE_INSULIN_PAIR_FILEPATH}"
+    filepath = Path(f"{GLUCOSE_INSULIN_REPOSITORY_DIRECTORY}/{GLUCOSE_INSULIN_PAIR_FILEPATH}")
 
     try:
         df_glucose_insulin: pd.DataFrame = pd.read_csv(filepath)
@@ -47,9 +48,7 @@ def read_glucose_insulin_dataset(
         df_glucose_insulin.columns = map(str.lower, df_glucose_insulin.columns)
 
         logging.info(
-            f"Successfully read {str(len(df_glucose_insulin))} rows from 'Curated Data for Describing Blood Glucose "
-            f"Management in the Intensive Care Unit'."
-        )
+            f"Loaded 'Curated Data for Describing Blood Glucose Management in the Intensive Care Unit' from ({filepath}).")
 
         # Sort the dataset by the sorted columns.
         df_glucose_insulin: pd.DataFrame = df_glucose_insulin.sort_values(
@@ -71,10 +70,6 @@ def read_glucose_insulin_dataset(
         # Extract the unique identifiers for each hospital admission.
         hospital_admission_ids: tuple[numpy.int64] = tuple(
             df_glucose_insulin[ColumnKey.HOSPITAL_ADMISSION_ID.value].unique())
-
-        # Log the summary of unique identifiers.
-        log_identifier_summary(icu_stay_ids=icu_stay_ids, subject_ids=subject_ids,
-                               hospital_admission_ids=hospital_admission_ids)
 
         return df_glucose_insulin, icu_stay_ids, subject_ids, hospital_admission_ids
     except FileNotFoundError:

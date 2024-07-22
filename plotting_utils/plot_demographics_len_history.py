@@ -15,7 +15,7 @@ def plot_demographics_len_history(demographics_len_history: tuple[tuple[str, int
 
     bars = plt.barh(labels, values, color='blue')
 
-    plt.subplots_adjust(left=0.35)
+    plt.subplots_adjust(left=0.4)
     plt.xlim(0, 16000)
 
     for bar_index in range(len(bars)):

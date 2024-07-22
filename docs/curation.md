@@ -15,7 +15,7 @@ The tables `patients`, `admissions`, `icustays` and `diagnoses_icd` are queried,
 identifier at a time.
 
 The demographics dataframe is constructed
-by [`generate_df_demographics(df_icu_stays, df_admissions, df_patients)`](../df_utils/generate_df_demographics.py),
+by [`generate_df_demographics(df_icu_stays, df_admissions, df_patients)`](../generate_df_demographics.py),
 which
 merges the tables `icustays`, `admissions`, and `patients`.
 

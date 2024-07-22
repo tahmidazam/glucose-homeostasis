@@ -31,15 +31,20 @@ def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.in
 
     try:
         with engine.connect() as connection:
-            query: str = generate_heights_weights_query(subject_ids=subject_ids)
+            dfs: [pd.DataFrame] = []
 
-            chunks = pd.read_sql_query(sql=query, con=connection, chunksize=chunk_size)
+            for chunk_index in tqdm(
+                    range(0, len(subject_ids), chunk_size),
+                    desc=f"No cache found, querying {TableName.CHARTEVENTS.value} (heights, weights) and saving to {cache}"
+            ):
+                subject_ids_chunk: [int] = subject_ids[chunk_index: chunk_index + chunk_size]
 
-            df_heights_weights = pd.DataFrame()
+                query: str = generate_heights_weights_query(subject_ids=subject_ids_chunk)
 
-            for chunk in tqdm(chunks,
-                              desc=f"No cache found, querying {TableName.CHARTEVENTS.value} and saving to {cache}"):
-                df_heights_weights = pd.concat([df_heights_weights, chunk])
+                df_chunk: pd.DataFrame = pd.read_sql_query(sql=query, con=connection)
+                dfs.append(df_chunk)
+
+            df_heights_weights = pd.concat(dfs)
 
             df_heights_weights.to_feather(path=cache)
 
