@@ -1,22 +1,43 @@
 import argparse
-import logging
 
 import numpy
 import pandas as pd
 import sqlalchemy
-from matplotlib import pyplot as plt
 
 from cli.define_arguments import define_arguments
 from constants.column_keys import ColumnKey
 from constants.filter_info import FilterInfo
+from constants.icd9_chapter import ICD9Chapter
+from constants.table_name import TableName
 from df_utils.calculate_age import calculate_age
 from df_utils.generate_df_demographics import generate_df_demographics
+from logging_utils.log_table_query_summary import log_table_query_summary
 from query.query_heights_weights import query_heights_weights
-from query.query_tables import query_tables
+from query.query_table import query_table
 from query.read_glucose_insulin_dataset import read_glucose_insulin_dataset
 from logging_utils.set_log_level import set_log_level
 from db_connection.url_from_argument_namespace import url_from_argument_namespace
 from query.verify_cache_directory import verify_cache_directory
+
+
+def is_cancer_or_pregnancy(icd):
+    if icd == None:
+        return False
+
+    if not icd.isnumeric():
+        return False
+
+    if len(icd) > 3:
+        icd = icd[:3] + '.' + icd[3:]
+
+    icd = float(icd)
+    if 140 <= icd <= 239:  # cancer
+        return True
+    elif 630 <= icd <= 679:  # pregnancy
+        return True
+    else:
+        return False
+
 
 if __name__ == '__main__':
     # Define command-line arguments.
@@ -43,17 +64,44 @@ if __name__ == '__main__':
         max_identifier_count=main_argument_namespace.max_identifier_count
     )
 
-    # Query the database tables, filtering by the unique identifiers
-    df_admissions: pd.DataFrame
-    df_patients: pd.DataFrame
-    df_diagnoses_icd: pd.DataFrame
-    df_icu_stays: pd.DataFrame
-
-    df_admissions, df_patients, df_diagnoses_icd, df_icu_stays = query_tables(
+    # Query the database tables, filtering by the appropriate unique identifiers.
+    df_admissions: pd.DataFrame = query_table(
         engine=engine,
-        subject_ids=subject_ids,
-        icu_stay_ids=icu_stay_ids,
-        chunk_size=main_argument_namespace.chunk_size
+        table_name=TableName.ADMISSIONS,
+        id_column_key=ColumnKey.SUBJECT_ID,
+        ids=subject_ids,
+        chunk_size=main_argument_namespace.chunk_size,
+    )
+
+    df_patients: pd.DataFrame = query_table(
+        engine=engine,
+        table_name=TableName.PATIENTS,
+        id_column_key=ColumnKey.SUBJECT_ID,
+        ids=subject_ids,
+        chunk_size=main_argument_namespace.chunk_size,
+    )
+
+    df_icu_stays: pd.DataFrame = query_table(
+        engine=engine,
+        table_name=TableName.ICUSTAYS,
+        id_column_key=ColumnKey.ICU_STAY_ID,
+        ids=icu_stay_ids,
+        chunk_size=main_argument_namespace.chunk_size,
+    )
+
+    df_diagnoses_icd: pd.DataFrame = query_table(
+        engine=engine,
+        table_name=TableName.DIAGNOSES_ICD,
+        id_column_key=ColumnKey.SUBJECT_ID,
+        ids=subject_ids,
+        chunk_size=main_argument_namespace.chunk_size,
+    )
+
+    log_table_query_summary(
+        df_admissions=df_admissions,
+        df_patients=df_patients,
+        df_diagnoses_icd=df_diagnoses_icd,
+        df_icu_stays=df_icu_stays
     )
 
     # Generate the demographics dataframe from merging tables.
@@ -66,6 +114,14 @@ if __name__ == '__main__':
     # Calculate the age of the patients.
     df_demographics: pd.DataFrame = calculate_age(df_demographics)
 
+    # Merge the demographics dataset with the ICU stay and subject identifiers from the glucose insulin dataset to
+    # respect readmission.
+    df_demographics = pd.merge(
+        left=df_demographics,
+        right=df_glucose_insulin[[ColumnKey.ICU_STAY_ID.value, ColumnKey.FIRST_ICU_STAY.value]],
+        on=ColumnKey.ICU_STAY_ID.value, how='inner'
+    ).drop_duplicates()
+
     # Filter the demographics dataframe by age.
     df_demographics: pd.DataFrame = df_demographics[
         (df_demographics[ColumnKey.AGE.value] > FilterInfo.AGE_LOWER_BOUND.value) & (
@@ -75,6 +131,21 @@ if __name__ == '__main__':
     df_demographics: pd.DataFrame = df_demographics[
         (df_demographics[ColumnKey.LENGTH_OF_STAY.value] > FilterInfo.LENGTH_OF_STAY_LOWER_BOUND.value) & (
                 df_demographics[ColumnKey.LENGTH_OF_STAY.value] < FilterInfo.LENGTH_OF_STAY_UPPER_BOUND.value)]
+
+    df_diagnoses_icd['exclude'] = df_diagnoses_icd['icd9_code'].apply(is_cancer_or_pregnancy)
+
+    # Preserve relevant columns.
+    relevant_columns: [ColumnKey] = [
+        ColumnKey.SUBJECT_ID,
+        ColumnKey.HOSPITAL_ADMISSION_ID,
+        ColumnKey.ICU_STAY_ID,
+        ColumnKey.IN_TIME,
+        ColumnKey.DIAGNOSIS,
+        ColumnKey.AGE,
+        ColumnKey.GENDER,
+    ]
+
+    df_demographics = df_demographics[[k.value for k in relevant_columns]]
 
     # Query the heights and weights of the patients.
     df_heights_weights = query_heights_weights(
@@ -87,8 +158,6 @@ if __name__ == '__main__':
     df_heights_weights[ColumnKey.CHART_TIME.value] = pd.to_datetime(
         df_heights_weights[ColumnKey.CHART_TIME.value])
 
-    x = df_heights_weights[df_heights_weights[ColumnKey.CHART_TIME.value].isnull()]
-
     # Forward- and back-fill weights and heights.
     df_heights_weights[ColumnKey.HEIGHT.value] = df_heights_weights.groupby(ColumnKey.ICU_STAY_ID.value)[
         ColumnKey.HEIGHT.value].ffill().bfill()
@@ -97,6 +166,8 @@ if __name__ == '__main__':
         ColumnKey.WEIGHT.value].ffill().bfill()
 
     # Take the last (i.e., most recent) height and weight for each ICU stay.
+    df_heights_weights = df_heights_weights.groupby(ColumnKey.ICU_STAY_ID.value).last().reset_index()
+
     df_demographics = pd.merge(df_demographics, df_heights_weights,
                                on=[ColumnKey.ICU_STAY_ID.value, ColumnKey.SUBJECT_ID.value],
                                how='left')

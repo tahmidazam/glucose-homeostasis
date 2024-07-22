@@ -28,13 +28,6 @@ def query_tables(
         ids=subject_ids,
         chunk_size=chunk_size,
     )
-    df_diagnoses_icd: pd.DataFrame = query_table(
-        engine=engine,
-        table_name=TableName.DIAGNOSES_ICD,
-        id_column_key=ColumnKey.SUBJECT_ID,
-        ids=subject_ids,
-        chunk_size=chunk_size,
-    )
     df_icu_stays: pd.DataFrame = query_table(
         engine=engine,
         table_name=TableName.ICUSTAYS,
@@ -50,4 +43,4 @@ def query_tables(
         df_icu_stays=df_icu_stays
     )
 
-    return df_admissions, df_patients, df_diagnoses_icd, df_icu_stays
+    return df_admissions, df_patients, df_icu_stays

@@ -12,6 +12,11 @@ class ColumnKey(Enum):
     VALUE_NUMERICAL: str = "valuenum"
     CHART_TIME: str = "charttime"
     ITEM_ID: str = "itemid"
+    SEQ_NUM: str = "seq_num"
+    ICD9_CODE: str = "icd9_code"
+    FIRST_ICU_STAY: str = "first_icu_stay"
+    DIAGNOSIS: str = "diagnosis"
+    GENDER: str = "gender"
 
     # Custom column keys (i.e., from calculation or processing).
     AGE: str = "age"
