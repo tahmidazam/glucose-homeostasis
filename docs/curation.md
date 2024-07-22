@@ -2,7 +2,7 @@
 > The _Curated Data for Describing Blood Glucose Management in the
 Intensive Care Unit_ dataset will be referenced by the name 'glucose insulin' dataset in this article.
 
-## Constructing the demographics dataframe
+## Reading the glucose insulin dataset
 
 The glucose insulin dataset is read from a `.csv` file, from which identifiers are extracted into a tuple
 of `numpy.int64`. Identifiers include:
@@ -11,11 +11,15 @@ of `numpy.int64`. Identifiers include:
 - The ICU stay identifier, and
 - The hospital admission identifier.
 
+## Querying MIMIC-III tables
+
 The tables `patients`, `admissions`, `icustays` and `diagnoses_icd` are queried, using chunks of the relevant extracted
 identifier at a time.
 
+## Constructing the demographics dataframe
+
 The demographics dataframe is constructed
-by [`generate_df_demographics(df_icu_stays, df_admissions, df_patients)`](../generate_df_demographics.py),
+by [`generate_df_demographics(engine, df_glucose_insulin, df_icu_stays, df_admissions, df_patients, df_diagnoses_icd, subject_ids, chunk_size)`](../generate_df_demographics.py),
 which
 merges the tables `icustays`, `admissions`, and `patients`.
 
