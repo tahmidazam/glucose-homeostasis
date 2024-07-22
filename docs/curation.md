@@ -19,9 +19,9 @@ identifier at a time.
 ## Constructing the demographics dataframe
 
 The demographics dataframe is constructed
-by [`generate_df_demographics(engine, df_glucose_insulin, df_icu_stays, df_admissions, df_patients, df_diagnoses_icd, subject_ids, chunk_size)`](../generate_df_demographics.py),
-which
-merges the tables `icustays`, `admissions`, and `patients`.
+by [`generate_df_demographics(engine, df_glucose_insulin, df_icu_stays, df_admissions, df_patients, df_diagnoses_icd, subject_ids, chunk_size)`](../generate_df_demographics.py).
+
+The tables `icustays`, `admissions`, and `patients` are merged to form the demographics dataframe.
 
 ### Calculating age
 
