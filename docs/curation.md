@@ -34,6 +34,15 @@ The dataset is filtered by age and length of stay, using the bounds set in [`Fil
 
 Only relevant columns are kept from the demographics dataframe.
 
+### Removing individuals with neoplasms or pregnant individuals
+
+The hospital admission identifiers in the `diagnoses_icd` table with ICD-9 codes that satisfy the constraints below are
+removed from the demographics dataframe:
+
+- null;
+- in the range 140–239 representing the ICD-9 chapter _neoplasms_; or
+- in the rage 630–679 representing the ICD-9 chapter _complications of pregnancy, childbirth, and the puerperium_
+
 ### Adding heights and weights
 
 Heights and weights are queried from the `chartevents` table. The query is generated
@@ -62,4 +71,10 @@ records in the demographics dataframe are preserved, and height and weight data 
 identifier and subject identifier are found in the heights and weights dataframe.
 
 The records with no height or weight data are dropped from the df_demographics table.
+
+### Record count
+
+Below is a plot of the count of the records in the demographics dataframe after each operation:
+
+![demographics_len_history](../plots/demographics_record_count.png)
 
