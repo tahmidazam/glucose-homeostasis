@@ -6,7 +6,7 @@ import sqlalchemy
 
 from cli.define_arguments import define_arguments
 from constants.column_keys import ColumnKey
-from constants.filter_info import FilterInfo
+from constants.filter import Filter
 from constants.icd9_chapter import ICD9Chapter
 from constants.table_name import TableName
 from df_utils.calculate_age import calculate_age
@@ -18,26 +18,6 @@ from query.read_glucose_insulin_dataset import read_glucose_insulin_dataset
 from logging_utils.set_log_level import set_log_level
 from db_connection.url_from_argument_namespace import url_from_argument_namespace
 from query.verify_cache_directory import verify_cache_directory
-
-
-def is_cancer_or_pregnancy(icd):
-    if icd == None:
-        return False
-
-    if not icd.isnumeric():
-        return False
-
-    if len(icd) > 3:
-        icd = icd[:3] + '.' + icd[3:]
-
-    icd = float(icd)
-    if 140 <= icd <= 239:  # cancer
-        return True
-    elif 630 <= icd <= 679:  # pregnancy
-        return True
-    else:
-        return False
-
 
 if __name__ == '__main__':
     # Define command-line arguments.
@@ -124,15 +104,13 @@ if __name__ == '__main__':
 
     # Filter the demographics dataframe by age.
     df_demographics: pd.DataFrame = df_demographics[
-        (df_demographics[ColumnKey.AGE.value] > FilterInfo.AGE_LOWER_BOUND.value) & (
-                df_demographics[ColumnKey.AGE.value] < FilterInfo.AGE_UPPER_BOUND.value)]
+        (df_demographics[ColumnKey.AGE.value] > Filter.AGE_LOWER_BOUND.value) & (
+                df_demographics[ColumnKey.AGE.value] < Filter.AGE_UPPER_BOUND.value)]
 
     # Filter the demographics dataframe by length of stay.
     df_demographics: pd.DataFrame = df_demographics[
-        (df_demographics[ColumnKey.LENGTH_OF_STAY.value] > FilterInfo.LENGTH_OF_STAY_LOWER_BOUND.value) & (
-                df_demographics[ColumnKey.LENGTH_OF_STAY.value] < FilterInfo.LENGTH_OF_STAY_UPPER_BOUND.value)]
-
-    df_diagnoses_icd['exclude'] = df_diagnoses_icd['icd9_code'].apply(is_cancer_or_pregnancy)
+        (df_demographics[ColumnKey.LENGTH_OF_STAY.value] > Filter.LENGTH_OF_STAY_LOWER_BOUND.value) & (
+                df_demographics[ColumnKey.LENGTH_OF_STAY.value] < Filter.LENGTH_OF_STAY_UPPER_BOUND.value)]
 
     # Preserve relevant columns.
     relevant_columns: [ColumnKey] = [
@@ -169,7 +147,7 @@ if __name__ == '__main__':
     df_heights_weights = df_heights_weights.groupby(ColumnKey.ICU_STAY_ID.value).last().reset_index()
 
     df_demographics = pd.merge(df_demographics, df_heights_weights,
-                               on=[ColumnKey.ICU_STAY_ID.value, ColumnKey.SUBJECT_ID.value],
+                               on=[ColumnKey.SUBJECT_ID.value],
                                how='left')
 
     # Drop rows with missing height or weight.

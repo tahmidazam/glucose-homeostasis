@@ -1,7 +1,7 @@
 import numpy
 
 from constants.column_keys import ColumnKey
-from constants.filter_info import FilterInfo
+from constants.filter import Filter
 from constants.table_name import TableName
 from constants.item_category import ItemCategory
 
@@ -49,8 +49,8 @@ def generate_heights_weights_query(subject_ids: tuple[numpy.int64]) -> str:
         {ColumnKey.CHART_TIME.value}, 
         {ColumnKey.SUBJECT_ID.value}, 
         {ColumnKey.ICU_STAY_ID.value},
-        CASE WHEN {ColumnKey.ITEM_ID.value} IN {ItemCategory.WEIGHT_ITEM_IDS.value} AND {ColumnKey.VALUE_NUMERICAL.value} < {FilterInfo.WEIGHT_UPPER_BOUND.value} THEN ROUND(CAST({ColumnKey.VALUE_NUMERICAL.value} as numeric), 2) ELSE NULL END AS {ColumnKey.WEIGHT.value},
-        CASE WHEN {ColumnKey.ITEM_ID.value} IN {ItemCategory.HEIGHT_ITEM_IDS.value} AND {ColumnKey.VALUE_NUMERICAL.value} < {FilterInfo.HEIGHT_UPPER_BOUND.value} THEN ROUND(CAST({ColumnKey.VALUE_NUMERICAL.value} as numeric), 2) ELSE NULL END AS {ColumnKey.HEIGHT.value}
+        CASE WHEN {ColumnKey.ITEM_ID.value} IN {ItemCategory.WEIGHT_ITEM_IDS.value} AND {ColumnKey.VALUE_NUMERICAL.value} < {Filter.WEIGHT_UPPER_BOUND.value} THEN ROUND(CAST({ColumnKey.VALUE_NUMERICAL.value} as numeric), 2) ELSE NULL END AS {ColumnKey.WEIGHT.value},
+        CASE WHEN {ColumnKey.ITEM_ID.value} IN {ItemCategory.HEIGHT_ITEM_IDS.value} AND {ColumnKey.VALUE_NUMERICAL.value} < {Filter.HEIGHT_UPPER_BOUND.value} THEN ROUND(CAST({ColumnKey.VALUE_NUMERICAL.value} as numeric), 2) ELSE NULL END AS {ColumnKey.HEIGHT.value}
     FROM {TableName.CONVERTED_VALUES.value}
     ORDER BY {ColumnKey.SUBJECT_ID.value}, {ColumnKey.ICU_STAY_ID.value}, {ColumnKey.CHART_TIME.value}
     """

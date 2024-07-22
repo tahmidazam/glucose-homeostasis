@@ -13,6 +13,7 @@
 
 ## Documentation
 
+- [Curation](docs/curation.md)
 - [Calculating weights and heights](docs/calculating-weights-and-heights.md)
 - [Caching](docs/caching.md)
 
