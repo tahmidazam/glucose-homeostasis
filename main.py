@@ -3,17 +3,15 @@ import argparse
 import numpy
 import pandas as pd
 import sqlalchemy
-from matplotlib import pyplot as plt
 
 from cli.define_arguments import define_arguments
 from constants.column_keys import ColumnKey
 from constants.filter import Filter
-from constants.icd9_chapter import ICD9Chapter
 from constants.table_name import TableName
 from df_utils.calculate_age import calculate_age
 from df_utils.generate_df_demographics import generate_df_demographics
 from df_utils.is_neoplasm_or_pregnancy import is_neoplasm_or_pregnancy
-from logging_utils.log_demographics_len_history import log_demographics_len_history
+from plotting_utils.plot_demographics_len_history import plot_demographics_len_history
 from logging_utils.log_table_query_summary import log_table_query_summary
 from query.query_heights_weights import query_heights_weights
 from query.query_table import query_table
@@ -183,6 +181,7 @@ if __name__ == '__main__':
 
     demographics_len_history += (("drop:null heights or weights", len(df_demographics)),)
 
-    log_demographics_len_history(demographics_len_history=demographics_len_history)
+    # Log the demographics length history.
+    plot_demographics_len_history(demographics_len_history=demographics_len_history)
 
     exit(0)

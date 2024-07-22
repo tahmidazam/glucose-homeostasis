@@ -2,7 +2,11 @@ import pandas as pd
 from matplotlib import pyplot as plt
 
 
-def log_demographics_len_history(demographics_len_history: tuple[tuple[str, int], ...]):
+def plot_demographics_len_history(demographics_len_history: tuple[tuple[str, int], ...]):
+    """
+    Plot the demographics record count history.
+    :param demographics_len_history: The history of the demographics record count, as a tuple of label, value pairs.
+    """
     labels, values = zip(*demographics_len_history[::-1])
 
     plt.figure(figsize=(8, 4))
