@@ -1,4 +1,4 @@
-## Prerequisites
+## Getting started
 
 1. Clone this repository.
 2. Download the `.zip` file containing the dataset _Curated Data for Describing Blood Glucose Management in the
