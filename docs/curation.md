@@ -45,6 +45,8 @@ removed from the demographics dataframe:
 
 ### Adding heights and weights
 
+#### Generating the SQL query
+
 Heights and weights are queried from the `chartevents` table. The query is generated
 by [`generate_heights_weights_query.py`](../query/generate_heights_weights_query.py) and handles:
 
@@ -57,6 +59,8 @@ by [`generate_heights_weights_query.py`](../query/generate_heights_weights_query
 
 The process of selected salient items for height and weight is discussed
 in [_Calculating weights and heights_](calculating-weights-and-heights.md).
+
+#### Post-processing of the SQL query
 
 [`query_heights_weights.py`](../query/query_heights_weights.py) carries out the SQL query. The chart time column in the
 dataframe is converted to a `datetime` object. The dataframe is grouped by ICU stay identifier and then forward- and
