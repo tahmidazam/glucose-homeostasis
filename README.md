@@ -1,3 +1,5 @@
+Data curation repository based on [4yr_project_glucose](https://github.com/GilesLuo/4yr_project_glucose).
+
 ## Getting started
 
 1. Clone this repository.
@@ -53,3 +55,7 @@ The argument declaration can be found in [`/cli/define_arguments.py`](/cli/defin
   from: https://doi.org/10.13026/C2XW26.
 - Robles Arévalo A, Mateo-Collado R, Celi L A. Curated Data for Describing Blood Glucose Management in the Intensive
   Care Unit (version 1.0.1). PhysioNet. 2021. Available from: https://doi.org/10.13026/517s-2q57.
+
+---
+
+Tahmid Azam, [ta549@cam.ac.uk](mailto:ta549@cam.ac.uk)
