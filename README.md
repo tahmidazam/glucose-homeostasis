@@ -3,11 +3,19 @@ by [Zhiyao Luo](https://github.com/GilesLuo)
 
 ## Prerequisites
 
+To run this project locally, the following is required:
+
 - Access to the [MIMIC-III Clinical Database](https://physionet.org/content/mimiciii/1.4/), which involves becoming a
-  credentialed user and signing a data use agreement. Find out more from
-  the [MIMIC documentation](https://mimic.mit.edu/docs/gettingstarted/)
+  credentialed user and signing a data use agreement (find out more from
+  the [MIMIC documentation](https://mimic.mit.edu/docs/gettingstarted/));
+- Access to
+  the [Curated Data for Describing Blood Glucose Management in the Intensive Care Unit](https://physionet.org/content/glucose-management-mimic/1.0.1/#files-panel),
+  with similar involvements; and
 - Access to [RxNav-in-a-Box](https://lhncbc.nlm.nih.gov/RxNav/applications/RxNav-in-a-Box.html) via a UMLS license
   agreement.
+
+You can read documentation articles without running the project locally. Essential plots utilised in the literature are
+pushed to enable this.
 
 ### System requirements
 
