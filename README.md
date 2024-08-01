@@ -96,6 +96,9 @@ The argument declaration can be found in [`/cli/define_arguments.py`](/cli/defin
   from: https://doi.org/10.13026/C2XW26.
 - Robles Arévalo A, Mateo-Collado R, Celi L A. Curated Data for Describing Blood Glucose Management in the Intensive
   Care Unit (version 1.0.1). PhysioNet. 2021. Available from: https://doi.org/10.13026/517s-2q57.
+- Nelson SJ, Zeng K, Kilbourne J, Powell T, Moore R. Normalized names for clinical drugs: RxNorm at 6 years. J Am Med
+  Inform Assoc [Internet]. 2011 [cited 2024 Aug 1];18(4):441–8. Available
+  from: https://academic.oup.com/jamia/article-lookup/doi/10.1136/amiajnl-2011-000116
 
 ---
 
