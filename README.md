@@ -1,4 +1,37 @@
-Data curation repository based on [4yr_project_glucose](https://github.com/GilesLuo/4yr_project_glucose).
+Data curation repository based on [`4yr_project_glucose`](https://github.com/GilesLuo/4yr_project_glucose)
+by [Zhiyao Luo](https://github.com/GilesLuo)
+
+## Prerequisites
+
+- Access to the [MIMIC-III Clinical Database](https://physionet.org/content/mimiciii/1.4/), which involves becoming a
+  credentialed user and signing a data use agreement. Find out more from
+  the [MIMIC documentation](https://mimic.mit.edu/docs/gettingstarted/)
+- Access to [RxNav-in-a-Box](https://lhncbc.nlm.nih.gov/RxNav/applications/RxNav-in-a-Box.html) via a UMLS license
+  agreement.
+
+### System requirements
+
+From the RxNav-in-a-Box [README.txt](https://data.lhncbc.nlm.nih.gov/public/rxnav/rxnav-in-a-box/README.txt):
+
+> - "12 gigabytes of memory to devote to a container platform (e.g., Docker)
+> - 100 gigabytes of disk space
+> - Docker Desktop,
+    or another OCI-compatible platform (in which case you
+    may take the included docker-compose.yml file as an example)."
+
+From
+the [`mimic-code`](https://github.com/MIT-LCP/mimic-code/blob/main/mimic-iii/buildmimic/postgres/README.md#hard-drive-space-required)
+repository:
+
+> "Loading the data into a PostgreSQL database requires around ~47 GB of space. The addition of [optional] indexes adds
+> another 26
+> GB. You will likely want to reserve 100 GB for the entire database."
+
+If running both the RxNav-in-a-Box and MIMIC-III databases locally, ensure that you have enough disk space and
+memory:
+
+- \>200GB disk space, and
+- \>12GB memory.
 
 ## Getting started
 
