@@ -6,9 +6,9 @@ import pandas as pd
 import sqlalchemy
 from tqdm import tqdm
 
-from constants.table_name import TableName
-from db_connection.db_connection_critical_error import db_connection_critical_error
-from query.generate_heights_weights_query import generate_heights_weights_query
+from curation.demographics.db_connection_critical_error import db_connection_critical_error
+from curation.demographics.generate_heights_weights_query import generate_heights_weights_query
+from curation.demographics.table_name import TableName
 
 
 def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.int64, ...],
@@ -20,7 +20,7 @@ def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.in
     :param chunk_size: The chunk size to use when querying the table.
     :return: The resulting DataFrame from the query.
     """
-    cache = Path("df_cache/df_heights_weights.feather")
+    cache = Path("./../df_cache/df_heights_weights.feather")
 
     if cache.is_file():
         df_heights_weights = pd.read_feather(cache)

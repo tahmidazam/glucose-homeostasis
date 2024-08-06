@@ -6,9 +6,9 @@ import pandas as pd
 import sqlalchemy
 from tqdm import tqdm
 
-from constants.column_keys import ColumnKey
-from db_connection.db_connection_critical_error import db_connection_critical_error
-from constants.table_name import TableName
+from curation.demographics.column_keys import ColumnKey
+from curation.demographics.db_connection_critical_error import db_connection_critical_error
+from curation.demographics.table_name import TableName
 
 
 def query_table(
@@ -41,7 +41,7 @@ def query_table(
 
         exit(1)
 
-    cache = Path(f"df_cache/df_{table_name.value.lower()}.feather")
+    cache = Path(f"./../df_cache/df_{table_name.value.lower()}.feather")
 
     if cache.is_file():
         df = pd.read_feather(cache)

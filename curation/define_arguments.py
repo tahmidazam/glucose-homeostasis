@@ -12,17 +12,6 @@ def define_arguments() -> argparse.ArgumentParser:
         epilog="Link to GitHub repository: https://github.com/tahmidazam/glucose-homeostasis."
     )
 
-    argument_parser.add_argument('-d', '--dbname', type=str, default="mimic", help='The name of the Postgres database.',
-                                 required=False)
-    argument_parser.add_argument('-u', '--user', type=str, default="mimicuser",
-                                 help='Username for the Postgres database.',
-                                 required=False)
-    argument_parser.add_argument('-p', '--password', type=str, default="", help='Username for the Postgres database.',
-                                 required=False)
-    argument_parser.add_argument('--host', type=str, default="localhost", help='The host of the Postgres database.',
-                                 required=False)
-    argument_parser.add_argument('--port', type=str, default="5432", help='The port used by the Postgres database.',
-                                 required=False)
     argument_parser.add_argument('-l', '--log-level', type=str, default="warning", help='The log level.',
                                  required=False)
     argument_parser.add_argument('-m', '--max-identifier-count', type=int, default=-1,

@@ -1,6 +1,6 @@
 import pandas as pd
 
-from constants.column_keys import ColumnKey
+from curation.demographics.column_keys import ColumnKey
 
 
 def extract_unique_icu_stay_ids(df_glucose_insulin: pd.DataFrame, max_identifier_count: int) -> [int]:

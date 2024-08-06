@@ -1,4 +1,4 @@
-from constants.icd9_chapter import ICD9Chapter
+from curation.demographics.icd9_chapter import ICD9Chapter
 
 
 def is_neoplasm_or_pregnancy(icd9_code) -> bool:

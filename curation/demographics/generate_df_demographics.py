@@ -1,38 +1,70 @@
+import argparse
+
+import numpy
 import numpy as np
 import pandas as pd
 from sqlalchemy import Engine
 
-from constants.column_keys import ColumnKey
-from constants.filter import Filter
-from df_utils.calculate_age import calculate_age
-from df_utils.is_neoplasm_or_pregnancy import is_neoplasm_or_pregnancy
-from plotting_utils.plot_demographics_len_history import plot_demographics_len_history
-from query.query_heights_weights import query_heights_weights
+from curation.demographics.calculate_age import calculate_age
+from curation.demographics.column_keys import ColumnKey
+from curation.demographics.filter import Filter
+from curation.demographics.is_neoplasm_or_pregnancy import is_neoplasm_or_pregnancy
+from curation.demographics.plot_demographics_len_history import plot_demographics_len_history
+from curation.demographics.query_heights_weights import query_heights_weights
+from curation.demographics.query_table import query_table
+from curation.demographics.table_name import TableName
 
 
 def generate_df_demographics(
         engine: Engine,
         df_glucose_insulin: pd.DataFrame,
-        df_icu_stays: pd.DataFrame,
-        df_admissions: pd.DataFrame,
-        df_patients: pd.DataFrame,
-        df_diagnoses_icd: pd.DataFrame,
         subject_ids: tuple[np.int64, ...],
-        chunk_size: int
+        main_argument_namespace: argparse.Namespace,
+        icu_stay_ids: [numpy.int64]
 ) -> pd.DataFrame:
     """
     Generate the demographics dataframe from the MIMIC-III database. Refer to [_Curation_](../docs/curation.md) for
     detailed documentation.
+    :param main_argument_namespace: The namespace containing the command-line arguments.
+    :param icu_stay_ids: The ICU stay identifiers to include.
     :param engine: The SQLAlchemy engine to use to connect to the MIMIC-III database.
     :param df_glucose_insulin: The glucose insulin dataset.
-    :param df_icu_stays: The ICU stays dataframe.
-    :param df_admissions: The admissions dataframe.
-    :param df_patients: The patients dataframe.
-    :param df_diagnoses_icd: The diagnoses ICD dataframe.
     :param subject_ids: The subject identifiers to include.
     :param chunk_size: The chunk size to use when querying the table.
     :return:
     """
+    df_admissions: pd.DataFrame = query_table(
+        engine=engine,
+        table_name=TableName.ADMISSIONS,
+        id_column_key=ColumnKey.SUBJECT_ID,
+        ids=subject_ids,
+        chunk_size=main_argument_namespace.chunk_size,
+    )
+
+    df_patients: pd.DataFrame = query_table(
+        engine=engine,
+        table_name=TableName.PATIENTS,
+        id_column_key=ColumnKey.SUBJECT_ID,
+        ids=subject_ids,
+        chunk_size=main_argument_namespace.chunk_size,
+    )
+
+    df_icu_stays: pd.DataFrame = query_table(
+        engine=engine,
+        table_name=TableName.ICUSTAYS,
+        id_column_key=ColumnKey.ICU_STAY_ID,
+        ids=icu_stay_ids,
+        chunk_size=main_argument_namespace.chunk_size,
+    )
+
+    df_diagnoses_icd: pd.DataFrame = query_table(
+        engine=engine,
+        table_name=TableName.DIAGNOSES_ICD,
+        id_column_key=ColumnKey.SUBJECT_ID,
+        ids=subject_ids,
+        chunk_size=main_argument_namespace.chunk_size,
+    )
+
     # Generate the demographics dataframe from merging tables.
     df_demographics: pd.DataFrame = pd.merge(
         left=pd.merge(
@@ -82,8 +114,8 @@ def generate_df_demographics(
                 df_demographics[ColumnKey.LENGTH_OF_STAY.value] < Filter.LENGTH_OF_STAY_UPPER_BOUND.value)]
 
     demographics_len_history += ((
-                                 f"filter:length of stay, l ({Filter.LENGTH_OF_STAY_LOWER_BOUND.value}d < l < {Filter.LENGTH_OF_STAY_UPPER_BOUND.value}d)",
-                                 len(df_demographics)),)
+                                     f"filter:length of stay, l ({Filter.LENGTH_OF_STAY_LOWER_BOUND.value}d < l < {Filter.LENGTH_OF_STAY_UPPER_BOUND.value}d)",
+                                     len(df_demographics)),)
 
     # Remove patients with diagnoses in ICD9 chapters involving neoplasms (i.e., cancer) or pregnancy.
     df_diagnoses_icd.dropna(subset=[ColumnKey.ICD9_CODE.value], inplace=True)
@@ -115,7 +147,7 @@ def generate_df_demographics(
     df_heights_weights = query_heights_weights(
         engine=engine,
         subject_ids=subject_ids,
-        chunk_size=chunk_size
+        chunk_size=main_argument_namespace.chunk_size
     )
 
     # Convert the chart time to a datetime type.

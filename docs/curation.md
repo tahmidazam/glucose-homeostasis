@@ -19,13 +19,14 @@ identifier at a time.
 ## Constructing the demographics dataframe
 
 The demographics dataframe is constructed
-by [`generate_df_demographics(engine, df_glucose_insulin, df_icu_stays, df_admissions, df_patients, df_diagnoses_icd, subject_ids, chunk_size)`](../generate_df_demographics.py).
+by [`generate_df_demographics(engine, df_glucose_insulin, df_icu_stays, df_admissions, df_patients, df_diagnoses_icd, subject_ids, chunk_size)`](../curation/demographics/generate_df_demographics.py).
 
 The tables `icustays`, `admissions`, and `patients` are merged to form the demographics dataframe.
 
 ### Calculating age
 
-The age is calculated by [`calculate_age(df)`](../df_utils/calculate_age.py), which calculates the age of the patient
+The age is calculated by [`calculate_age(df)`](../curation/demographics/calculate_age.py), which calculates the age of
+the patient
 from
 the date of birth and the timestamp of admission
 using the library `dateutil`'s `relativedelta` function, and accessing its `years` property.
@@ -34,7 +35,8 @@ The demographics dataframe which is constructed from queries from the MIMIC-III 
 insulin dataset using an `inner` merge, which means only the records with an ICU stay identifier in both datasets are
 preserved.
 
-The dataset is filtered by age and length of stay, using the bounds set in [`Filter`](../constants/filter.py).
+The dataset is filtered by age and length of stay, using the bounds set
+in [`Filter`](../curation/demographics/filter.py).
 
 Only relevant columns are kept from the demographics dataframe.
 
@@ -52,7 +54,7 @@ removed from the demographics dataframe:
 #### Generating the SQL query
 
 Heights and weights are queried from the `chartevents` table. The query is generated
-by [`generate_heights_weights_query.py`](../query/generate_heights_weights_query.py) and handles:
+by [`generate_heights_weights_query.py`](../curation/demographics/generate_heights_weights_query.py) and handles:
 
 - Conversion to the metres and kilograms for height and weight respectively;
 - Casting to a numeric type;
@@ -66,7 +68,9 @@ in [_Calculating weights and heights_](calculating-weights-and-heights.md).
 
 #### Post-processing of the SQL query
 
-[`query_heights_weights.py`](../query/query_heights_weights.py) carries out the SQL query. The chart time column in the
+[`query_heights_weights.py`](../curation/demographics/query_heights_weights.py) carries out the SQL query. The chart
+time column in
+the
 dataframe is converted to a `datetime` object. The dataframe is grouped by ICU stay identifier and then forward- and
 back-filled to fill in null values.
 

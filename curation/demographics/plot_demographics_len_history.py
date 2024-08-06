@@ -1,4 +1,3 @@
-import pandas as pd
 from matplotlib import pyplot as plt
 
 
@@ -38,4 +37,4 @@ def plot_demographics_len_history(demographics_len_history: tuple[tuple[str, int
                 va='center'
             )
 
-    plt.savefig('plots/demographics_record_count.png')
+    plt.savefig('../plots/demographics_record_count.png')

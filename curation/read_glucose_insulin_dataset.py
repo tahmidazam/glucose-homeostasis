@@ -1,15 +1,15 @@
+import logging
 from pathlib import Path
 
 import numpy
 import pandas as pd
-import logging
 
-from constants.column_keys import ColumnKey
-from df_utils.extract_unique_icustay_ids import extract_unique_icu_stay_ids
+from curation.demographics.column_keys import ColumnKey
+from curation.demographics.extract_unique_icustay_ids import extract_unique_icu_stay_ids
 
 # The directory from the uncompressed .zip file contents.
 GLUCOSE_INSULIN_REPOSITORY_DIRECTORY = (
-    './../curated-data-for-describing-blood-glucose-management-in-the-intensive-care-unit-1.0.1'
+    './../../curated-data-for-describing-blood-glucose-management-in-the-intensive-care-unit-1.0.1'
 )
 
 # The filepath of the dataset .csv file in the dataset respository directory.
