@@ -45,6 +45,8 @@ memory:
 - \>200GB disk space, and
 - \>12GB memory.
 
+[Docker Desktop](https://www.docker.com/products/docker-desktop/) is recommended for running RxNav-in-a-Box locally.
+
 ## Getting started
 
 1. Clone this repository.
