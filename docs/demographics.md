@@ -1,4 +1,4 @@
-## Constructing the demographics dataframe
+## Curating demographics
 
 The demographics dataframe is constructed
 by [`generate_df_demographics(engine, df_glucose_insulin, df_icu_stays, df_admissions, df_patients, df_diagnoses_icd, subject_ids, chunk_size)`](../curation/demographics/generate_df_demographics.py).

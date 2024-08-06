@@ -1,4 +1,4 @@
-## Classifying prescriptions
+## Classifying prescriptions using RxNorm and RxClass
 
 The prescription table is transformed into one-hot vectors for training. There is insufficient overlap of drug labelling
 at the sample size of the MIMIC-III dataset. Therefore, the drugs in the prescription table are classified into broad

@@ -62,7 +62,8 @@ memory:
 
 ## Documentation
 
-- [Curation](docs/demographics.md)
+- [Curating demographics](docs/demographics.md)
+- [Classifying prescriptions using RxNorm and RxClass](docs/prescriptions.md)
 - [Calculating weights and heights](docs/calculating-weights-and-heights.md)
 - [Caching](docs/caching.md)
 
