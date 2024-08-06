@@ -1,5 +1,5 @@
 Data curation repository based on [`4yr_project_glucose`](https://github.com/GilesLuo/4yr_project_glucose)
-by [Zhiyao Luo](https://github.com/GilesLuo)
+by [Zhiyao Luo](https://github.com/GilesLuo).
 
 ## Prerequisites
 
