@@ -94,7 +94,9 @@ class RxclassDrugInfoList:
 
     @staticmethod
     def from_dict(obj: Any) -> 'RxclassDrugInfoList':
-        assert isinstance(obj, dict)
+        if not isinstance(obj, dict):
+            return RxclassDrugInfoList([])
+
         rxclass_drug_info = from_list(RxclassDrugInfo.from_dict, obj.get("rxclassDrugInfo"))
         return RxclassDrugInfoList(rxclass_drug_info)
 

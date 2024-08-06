@@ -101,3 +101,12 @@ endpoint, accessed in python by the function
 
 The classification results are added to the prescription dataframe. For each class type, the class name and the class id
 are included. The class id is used to create the one-hot vectors for training.
+
+### Classification performance
+
+The proportion of prescription records with non-null class ids for each class type are plotted below.
+
+![Classification performance](plots/classification_performance.png)
+
+We can see that the `CHEM` and `ATC1-4` class types are the most performant (i.e., classify the most records in the
+prescription table).

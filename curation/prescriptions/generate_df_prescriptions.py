@@ -4,6 +4,7 @@ import sqlalchemy
 from curation.constants import ColumnKey
 from curation.plot_count_history import plot_count_history
 from .lookup import generate_ndc_lookup, generate_gsn_lookup, generate_name_lookup, generate_class_lookup
+from .plot_classification_performance import plot_classification_performance
 from .query_prescriptions import query_prescriptions
 
 
@@ -25,7 +26,7 @@ def generate_df_prescriptions(engine: sqlalchemy.Engine) -> pd.DataFrame:
 
     # Looking up GSNs and merging found RxCUIs in.
     df_gsn_lookup = generate_gsn_lookup(s_gsn=df_prescriptions['gsn'])
-    df_prescriptions = pd.merge(left=df_prescriptions, right=df_gsn_lookup, how='inner', on=['gsn', 'rxcui'])
+    df_prescriptions = pd.merge(left=df_prescriptions, right=df_gsn_lookup, how='outer', on=['gsn', 'rxcui'])
 
     # Counting unidentified prescriptions after GSN lookup.
     df_unidentified_prescriptions = df_prescriptions[df_prescriptions['rxcui'].isna()]
@@ -34,7 +35,7 @@ def generate_df_prescriptions(engine: sqlalchemy.Engine) -> pd.DataFrame:
     # Looking up drug names and merging found RxCUIs in.
     df_name_lookup = generate_name_lookup(df_unidentified_prescriptions[ColumnKey.DRUG.value],
                                           column_key=ColumnKey.DRUG)
-    df_prescriptions = pd.merge(left=df_prescriptions, right=df_name_lookup, how='inner', on=['drug', 'rxcui'])
+    df_prescriptions = pd.merge(left=df_prescriptions, right=df_name_lookup, how='outer', on=['drug', 'rxcui'])
 
     # Counting unidentified prescriptions after drug name lookup.
     df_unidentified_prescriptions = df_prescriptions[df_prescriptions['rxcui'].isna()]
@@ -43,7 +44,7 @@ def generate_df_prescriptions(engine: sqlalchemy.Engine) -> pd.DataFrame:
     # Looking up generic drug names and merging found class names in.
     df_generic_name_lookup = generate_name_lookup(df_unidentified_prescriptions[ColumnKey.DRUG_NAME_GENERIC.value],
                                                   column_key=ColumnKey.DRUG_NAME_GENERIC)
-    df_prescriptions = pd.merge(left=df_prescriptions, right=df_generic_name_lookup, how='inner',
+    df_prescriptions = pd.merge(left=df_prescriptions, right=df_generic_name_lookup, how='outer',
                                 on=[ColumnKey.DRUG_NAME_GENERIC.value, 'rxcui'])
 
     # Counting unidentified prescriptions after drug name lookup.
@@ -61,5 +62,7 @@ def generate_df_prescriptions(engine: sqlalchemy.Engine) -> pd.DataFrame:
     # Classifying drugs using their RxCUI and merging them in.
     df_class_lookup = generate_class_lookup(df_prescriptions['rxcui'])
     df_prescriptions = pd.merge(left=df_prescriptions, right=df_class_lookup, how='left', on='rxcui')
+
+    plot_classification_performance(df_prescriptions=df_prescriptions)
 
     return df_prescriptions
