@@ -5,12 +5,11 @@ import pandas as pd
 import sqlalchemy
 from dotenv import dotenv_values
 
-from config import config_from_dict
+from config import config_from_dict, config_to_mimic_db_url
 from define_arguments import define_arguments
 from demographics import generate_df_demographics
 from read_glucose_insulin_dataset import read_glucose_insulin_dataset
 from set_log_level import set_log_level
-from url_from_argument_namespace import config_to_db_url
 from verify_cache_directory import verify_cache_directory
 
 if __name__ == '__main__':
@@ -22,7 +21,7 @@ if __name__ == '__main__':
     config = config_from_dict(dotenv_values())
 
     # Create reference to MIMIC-III Postgres database.
-    url: str = config_to_db_url(config=config)
+    url: str = config_to_mimic_db_url(config=config)
     engine: sqlalchemy.Engine = sqlalchemy.create_engine(url=url, execution_options={'stream_results': True})
 
     # Set log level.

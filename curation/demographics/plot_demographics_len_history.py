@@ -37,4 +37,4 @@ def plot_demographics_len_history(demographics_len_history: tuple[tuple[str, int
                 va='center'
             )
 
-    plt.savefig('../plots/demographics_record_count.png')
+    plt.savefig('./../docs/plots/demographics_record_count.png')

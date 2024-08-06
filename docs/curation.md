@@ -88,5 +88,5 @@ The records with no height or weight data are dropped from the df_demographics t
 
 Below is a plot of the count of the records in the demographics dataframe after each operation:
 
-![demographics_len_history](../plots/demographics_record_count.png)
+![demographics_len_history](plots/demographics_record_count.png)
 
