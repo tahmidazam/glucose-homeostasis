@@ -3,9 +3,9 @@ from curation.prescriptions.get_approximate_match import GetApproximateMatchResp
 
 
 def identify_drug_using_approximate_match(row, column_key: ColumnKey):
-    drug_raw_value: str = row[column_key.value]
+    drug_raw_value: str = row[column_key.value].strip()
 
-    if drug_raw_value is None:
+    if drug_raw_value is None or drug_raw_value == '':
         return row
 
     get_approximate_match_response: GetApproximateMatchResponse = get_approximate_match(term=drug_raw_value)

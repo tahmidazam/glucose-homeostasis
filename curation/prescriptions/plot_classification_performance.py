@@ -37,6 +37,8 @@ def plot_classification_performance(df_prescriptions: pd.DataFrame):
     plt.ylabel('proportion of prescription records with non-null class ids (%)')
     plt.title('Classification performance by class type')
 
+    plt.ylim(0, 100)
+
     for bar in bars:
         yval = bar.get_height()
         plt.text(bar.get_x() + bar.get_width() / 2, yval + 0.5, round(yval, 2), ha='center', va='bottom')
