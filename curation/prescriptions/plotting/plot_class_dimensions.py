@@ -1,7 +1,7 @@
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from curation.prescriptions.class_types import CLASS_TYPES
+from curation.prescriptions.plotting.class_types import CLASS_TYPES
 
 
 def plot_class_dimensions(df_prescriptions: pd.DataFrame):

@@ -1,3 +1,4 @@
+from curation.constants import ColumnKey
 from curation.prescriptions.find_rxcui_by_id import FindRxCUIByIDResponse, find_rxcui_by_id, IdType
 
 
@@ -18,6 +19,6 @@ def identify_drug_using_gsn(row):
         return row
 
     rxcui = rxcuis[0]
-    row['rxcui'] = rxcui
+    row[ColumnKey.RXCUI.value] = rxcui
 
     return row

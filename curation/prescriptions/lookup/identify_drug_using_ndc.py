@@ -29,6 +29,6 @@ def identify_drug_using_ndc(row):
     rxcui = rxcuis[0]
 
     # Add the RxCUI to the row.
-    row['rxcui'] = rxcui
+    row[ColumnKey.RXCUI.value] = rxcui
 
     return row

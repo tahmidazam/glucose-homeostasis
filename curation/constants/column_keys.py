@@ -24,3 +24,5 @@ class ColumnKey(Enum):
     AGE: str = "age"
     HEIGHT: str = "height"
     WEIGHT: str = "weight"
+
+    RXCUI = 'rxcui'

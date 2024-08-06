@@ -3,6 +3,7 @@ import logging
 import pandas as pd
 from tqdm import tqdm
 
+from curation.constants import ColumnKey
 from curation.get_cache_path import get_cache_path
 from curation.prescriptions.lookup.classify_drug import classify_drug
 
@@ -18,7 +19,7 @@ def generate_class_lookup(s_rxcui: pd.Series) -> pd.DataFrame:
     df_class_lookup = pd.DataFrame()
 
     # N.B. Int64 type enables null values.
-    df_class_lookup['rxcui'] = s_rxcui.drop_duplicates().dropna().astype('Int64')
+    df_class_lookup[ColumnKey.RXCUI.value] = s_rxcui.drop_duplicates().dropna().astype('Int64')
     tqdm.pandas(desc='Classifying RxCUIs using RxClass and saving to cache')
     df_class_lookup = df_class_lookup.progress_apply(classify_drug, axis=1)
     df_class_lookup.to_feather(path=path)

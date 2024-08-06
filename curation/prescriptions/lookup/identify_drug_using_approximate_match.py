@@ -18,6 +18,6 @@ def identify_drug_using_approximate_match(row, column_key: ColumnKey):
 
     rxcui = sorted_candidates[0].rxcui
 
-    row['rxcui'] = rxcui
+    row[ColumnKey.RXCUI.value] = rxcui
 
     return row
