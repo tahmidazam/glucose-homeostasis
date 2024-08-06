@@ -84,8 +84,8 @@ in the plot below.
 
 ![Unidentified prescription count](plots/unidentified_prescription_count.png)
 
-Through lookup up NDCs, GSNs, drug names, and generic drug names, the number of unidentified prescription records is
-brought to 0.
+Through the hierarchy of lookups using the NDCs, GSNs, drug names, and generic drug names, the number of unidentified
+prescription records falls.
 
 > **Note**: We must appreciate and assume that the drugs have been truthfully entered into the dataset, and that the
 > RxCUIs are appropriately selected for each prescription.
