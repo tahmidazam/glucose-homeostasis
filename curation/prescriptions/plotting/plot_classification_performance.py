@@ -1,21 +1,7 @@
 import pandas as pd
 from matplotlib import pyplot as plt
 
-CLASS_TYPES = [
-    'ATC1-4',
-    'CHEM',
-    'DISEASE',
-    'DISPOS',
-    'EPC',
-    'MOA',
-    'PE',
-    'PK',
-    'SCHEDULE',
-    'STRUCT',
-    'TC',
-    'THERAP',
-    'VA'
-]
+from curation.prescriptions.class_types import CLASS_TYPES
 
 
 def plot_classification_performance(df_prescriptions: pd.DataFrame):

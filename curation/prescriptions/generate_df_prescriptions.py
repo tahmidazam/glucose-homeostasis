@@ -4,7 +4,7 @@ import sqlalchemy
 from curation.constants import ColumnKey
 from curation.plot_count_history import plot_count_history
 from .lookup import generate_ndc_lookup, generate_gsn_lookup, generate_name_lookup, generate_class_lookup
-from .plot_classification_performance import plot_classification_performance
+from .plotting import plot_classification_performance, plot_class_dimensions
 from .query_prescriptions import query_prescriptions
 
 
@@ -69,6 +69,8 @@ def generate_df_prescriptions(engine: sqlalchemy.Engine) -> pd.DataFrame:
     df_class_lookup = generate_class_lookup(df_prescriptions['rxcui'])
     df_prescriptions = pd.merge(left=df_prescriptions, right=df_class_lookup, how='left', on='rxcui')
 
+    # Plotting the classification performance and class dimensions.
     plot_classification_performance(df_prescriptions=df_prescriptions)
+    plot_class_dimensions(df_prescriptions=df_prescriptions)
 
     return df_prescriptions

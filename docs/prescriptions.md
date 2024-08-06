@@ -110,3 +110,9 @@ The proportion of prescription records with non-null class ids for each class ty
 
 We can see that the `CHEM` and `ATC1-4` class types are the most performant (i.e., classify the most records in the
 prescription table).
+
+### Dimension count
+
+The number of dimensions of a one-hot vector representative of each class type is plotted below.
+
+![Dimension count by class type](plots/dimension_count_by_class_type.png)
