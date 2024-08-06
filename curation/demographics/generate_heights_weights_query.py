@@ -1,8 +1,8 @@
 import numpy
 
-from curation.demographics.column_keys import ColumnKey
+from curation.constants.column_keys import ColumnKey
+from curation.constants.table_name import TableName
 from curation.demographics.item_category import ItemCategory
-from curation.demographics.table_name import TableName
 
 
 def generate_heights_weights_query(subject_ids: tuple[numpy.int64]) -> str:

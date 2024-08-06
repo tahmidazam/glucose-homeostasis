@@ -6,9 +6,9 @@ import pandas as pd
 import sqlalchemy
 from tqdm import tqdm
 
-from curation.demographics.column_keys import ColumnKey
-from curation.demographics.db_connection_critical_error import db_connection_critical_error
-from curation.demographics.table_name import TableName
+from curation.constants.column_keys import ColumnKey
+from curation.constants.table_name import TableName
+from curation.throw_db_con_critical_error import throw_db_con_critical_error
 
 
 def query_table(
@@ -72,4 +72,4 @@ def query_table(
 
             return df
     except sqlalchemy.exc.OperationalError:
-        db_connection_critical_error(engine=engine)
+        throw_db_con_critical_error(engine=engine)

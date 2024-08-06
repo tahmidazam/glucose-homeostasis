@@ -5,14 +5,14 @@ import numpy as np
 import pandas as pd
 from sqlalchemy import Engine
 
+from curation.constants.column_keys import ColumnKey
+from curation.constants.table_name import TableName
 from curation.demographics.calculate_age import calculate_age
-from curation.demographics.column_keys import ColumnKey
 from curation.demographics.filter import Filter
 from curation.demographics.is_neoplasm_or_pregnancy import is_neoplasm_or_pregnancy
-from curation.demographics.plot_demographics_len_history import plot_demographics_len_history
 from curation.demographics.query_heights_weights import query_heights_weights
 from curation.demographics.query_table import query_table
-from curation.demographics.table_name import TableName
+from curation.plot_count_history import plot_count_history
 
 
 def generate_df_demographics(
@@ -23,7 +23,7 @@ def generate_df_demographics(
         icu_stay_ids: [numpy.int64]
 ) -> pd.DataFrame:
     """
-    Generate the demographics dataframe from the MIMIC-III database. Refer to [_Curation_](../docs/curation.md) for
+    Generate the demographics dataframe from the MIMIC-III database. Refer to [_Curation_](../docs/demographics.md) for
     detailed documentation.
     :param main_argument_namespace: The namespace containing the command-line arguments.
     :param icu_stay_ids: The ICU stay identifiers to include.
@@ -184,6 +184,7 @@ def generate_df_demographics(
          len(df_demographics)),)
 
     # Log the demographics length history.
-    plot_demographics_len_history(demographics_len_history=demographics_len_history)
+    plot_count_history(count_history=demographics_len_history, title="Demographics record count", upper_x_lim=16000,
+                       left=0.4)
 
     return df_demographics

@@ -6,9 +6,9 @@ import pandas as pd
 import sqlalchemy
 from tqdm import tqdm
 
-from curation.demographics.db_connection_critical_error import db_connection_critical_error
+from curation.constants.table_name import TableName
 from curation.demographics.generate_heights_weights_query import generate_heights_weights_query
-from curation.demographics.table_name import TableName
+from curation.throw_db_con_critical_error import throw_db_con_critical_error
 
 
 def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.int64, ...],
@@ -50,4 +50,4 @@ def query_heights_weights(engine: sqlalchemy.Engine, subject_ids: tuple[numpy.in
 
             return df_heights_weights
     except sqlalchemy.exc.OperationalError:
-        db_connection_critical_error(engine=engine)
+        throw_db_con_critical_error(engine=engine)

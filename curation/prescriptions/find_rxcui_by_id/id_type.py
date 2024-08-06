@@ -1,0 +1,25 @@
+from enum import Enum
+
+
+class IdType(Enum):
+    AMPID = "AMPID"
+    ANADA = "ANADA"
+    ANDA = "ANDA"
+    ATC = "ATC"
+    BLA = "BLA"
+    CVX = "CVX"
+    DRUGBANK = "Drugbank"
+    GCN_SEQNO = "GCN_SEQNO"
+    GFC = "GFC"
+    HCPCS = "HCPCS"
+    HIC_SEQN = "HIC_SEQN"
+    MMSL_CODE = "MMSL_CODE"
+    NADA = "NADA"
+    NDA = "NDA"
+    NDC = "NDC"
+    NHRIC = "NHRIC"
+    SNOMEDCT = "SNOMEDCT"
+    SPL_SET_ID = "SPL_SET_ID"
+    UNII_CODE = "UNII_CODE"
+    USP = "USP"
+    VUID = "VUID"

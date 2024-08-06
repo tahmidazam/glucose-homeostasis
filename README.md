@@ -11,8 +11,12 @@ To run this project locally, the following is required:
 - Access to
   the [Curated Data for Describing Blood Glucose Management in the Intensive Care Unit](https://physionet.org/content/glucose-management-mimic/1.0.1/#files-panel),
   with similar involvements; and
-- Access to [RxNav-in-a-Box](https://lhncbc.nlm.nih.gov/RxNav/applications/RxNav-in-a-Box.html) via a UMLS license
+- Access to [RxNav-in-a-Box](https://lhncbc.nlm.nih.gov/RxNav/applications/RxNav-in-a-Box.html) via a Unified Medical
+  Language System (UMLS) license
   agreement.
+
+> **Note**: The RxNorm and RxClass APIs used inside RxNav-in-a-Box must be run locally. Read more
+> at [Classifying prescriptions](/docs/prescriptions.md).
 
 You can read documentation articles without running the project locally. Essential plots utilised in the literature are
 pushed to enable this.
@@ -58,7 +62,7 @@ memory:
 
 ## Documentation
 
-- [Curation](docs/curation.md)
+- [Curation](docs/demographics.md)
 - [Calculating weights and heights](docs/calculating-weights-and-heights.md)
 - [Caching](docs/caching.md)
 

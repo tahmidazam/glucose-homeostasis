@@ -7,10 +7,11 @@ from dotenv import dotenv_values
 
 from config import config_from_dict, config_to_mimic_db_url
 from define_arguments import define_arguments
-from demographics import generate_df_demographics
-from read_glucose_insulin_dataset import read_glucose_insulin_dataset
 from set_log_level import set_log_level
 from verify_cache_directory import verify_cache_directory
+from .demographics import generate_df_demographics
+from .prescriptions import generate_df_prescriptions
+from .read_glucose_insulin_dataset import read_glucose_insulin_dataset
 
 if __name__ == '__main__':
     # Define command-line arguments.
@@ -47,6 +48,10 @@ if __name__ == '__main__':
         subject_ids=subject_ids,
         main_argument_namespace=main_argument_namespace,
         icu_stay_ids=icu_stay_ids
+    )
+
+    df_prescriptions: pd.DataFrame = generate_df_prescriptions(
+        engine=engine,
     )
 
     exit(0)

@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy
 import pandas as pd
 
-from curation.demographics.column_keys import ColumnKey
+from curation.constants.column_keys import ColumnKey
 from curation.demographics.extract_unique_icustay_ids import extract_unique_icu_stay_ids
 
 # The directory from the uncompressed .zip file contents.

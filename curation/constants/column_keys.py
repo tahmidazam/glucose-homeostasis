@@ -17,6 +17,8 @@ class ColumnKey(Enum):
     FIRST_ICU_STAY: str = "first_icu_stay"
     DIAGNOSIS: str = "diagnosis"
     GENDER: str = "gender"
+    DRUG: str = "drug"
+    DRUG_NAME_GENERIC = "drug_name_generic"
 
     # Custom column keys (i.e., from calculation or processing).
     AGE: str = "age"
