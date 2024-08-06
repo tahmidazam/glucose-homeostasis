@@ -51,9 +51,10 @@ memory:
 3. Follow the instructions on [mimic.mit.edu](https://mimic.mit.edu/docs/gettingstarted/local/) to
    install [MIMIC-III](https://physionet.org/content/mimiciii/1.4/) to a local [PostgreSQL](https://www.postgresql.org)
    database.
-4. Set up your Python virtual environment and install required packages using `pip install -r requirements.txt`.
+4. Set up your Python virtual environment.
+5. Install required packages using `pip install -r requirements.txt`.
 5. Set your environment variables in [`.env`](.env).
-6. Run [`main.py`](curation/__main__.py).
+6. Run the curation module inside your virtual environment using `python -m curation`.
 
 ## Documentation
 
