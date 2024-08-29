@@ -90,6 +90,8 @@ memory:
 - Nelson SJ, Zeng K, Kilbourne J, Powell T, Moore R. Normalized names for clinical drugs: RxNorm at 6 years. J Am Med
   Inform Assoc [Internet]. 2011 [cited 2024 Aug 1];18(4):441–8. Available
   from: https://academic.oup.com/jamia/article-lookup/doi/10.1136/amiajnl-2011-000116
+- Vreeman DJ, McDonald CJ, Huff SM. LOINC® - A Universal Catalog of Individual Clinical Observations and Uniform
+  Representation of Enumerated Collections. Int J Funct Inform Personal Med. 2010;3(4):273–91.
 
 ---
 
