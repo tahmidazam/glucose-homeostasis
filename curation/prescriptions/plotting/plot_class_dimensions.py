@@ -1,3 +1,6 @@
+import logging
+from pathlib import Path
+
 import pandas as pd
 from matplotlib import pyplot as plt
 
@@ -5,6 +8,7 @@ from curation.prescriptions.plotting.class_types import CLASS_TYPES
 
 
 def plot_class_dimensions(df_prescriptions: pd.DataFrame):
+    title: str = "dimension_count_by_class_type"
     counts: tuple[tuple[str, float], ...] = ()
 
     for class_type in CLASS_TYPES:
@@ -26,4 +30,8 @@ def plot_class_dimensions(df_prescriptions: pd.DataFrame):
         yval = bar.get_height()
         plt.text(bar.get_x() + bar.get_width() / 2, yval + 0.5, round(yval, 2), ha='center', va='bottom')
 
-    plt.savefig("./../docs/plots/dimension_count_by_class_type.png")
+    path = Path(f"./../docs/plots/{title}.png")
+
+    plt.savefig(path)
+
+    logging.info(f"Saved '{title}' plot to {path}")

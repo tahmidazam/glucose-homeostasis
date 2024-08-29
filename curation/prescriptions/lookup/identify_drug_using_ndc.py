@@ -1,5 +1,6 @@
 import numpy as np
 
+from curation.constants import ColumnKey
 from curation.prescriptions.find_rxcui_by_id import FindRxCUIByIDResponse, find_rxcui_by_id, IdType
 
 

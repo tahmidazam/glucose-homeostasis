@@ -1,3 +1,6 @@
+import logging
+from pathlib import Path
+
 from matplotlib import pyplot as plt
 
 
@@ -33,4 +36,8 @@ def plot_count_history(count_history: tuple[tuple[str, int], ...], title: str, u
                 va='center'
             )
 
-    plt.savefig(f"./../docs/plots/{title.lower().replace(' ', '_')}.png")
+    path = Path(f"./../docs/plots/{title.lower().replace(' ', '_')}.png")
+
+    plt.savefig(path)
+    
+    logging.info(f"Saved '{title}' plot to {path}")
