@@ -22,6 +22,8 @@ class Config:
     mimic_database_host: str
     mimic_database_port: int
 
+    loinc_version: str
+
     @staticmethod
     def from_dict(obj: Any) -> 'Config':
         assert isinstance(obj, dict)
@@ -30,8 +32,9 @@ class Config:
         mimic_database_password = from_str(obj.get("MIMIC_DATABASE_PASSWORD"))
         mimic_database_host = from_str(obj.get("MIMIC_DATABASE_HOST"))
         mimic_database_port = int(from_str(obj.get("MIMIC_DATABASE_PORT")))
+        loinc_version = from_str(obj.get("LOINC_VERSION"))
         return Config(mimic_database_name, mimic_database_username, mimic_database_password, mimic_database_host,
-                      mimic_database_port)
+                      mimic_database_port, loinc_version)
 
     def to_dict(self) -> dict:
         result: dict = {
@@ -39,7 +42,8 @@ class Config:
             "MIMIC_DATABASE_USERNAME": from_str(self.mimic_database_username),
             "MIMIC_DATABASE_PASSWORD": from_str(self.mimic_database_password),
             "MIMIC_DATABASE_HOST": from_str(self.mimic_database_host),
-            "MIMIC_DATABASE_PORT": from_str(str(self.mimic_database_port))
+            "MIMIC_DATABASE_PORT": from_str(str(self.mimic_database_port)),
+            "LOINC_VERSION": from_str(self.loinc_version)
         }
         return result
 

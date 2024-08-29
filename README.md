@@ -14,6 +14,8 @@ To run this project locally, the following is required:
 - Access to [RxNav-in-a-Box](https://lhncbc.nlm.nih.gov/RxNav/applications/RxNav-in-a-Box.html) via a Unified Medical
   Language System (UMLS) license
   agreement.
+- Access to the [Logical Observation Identifiers Names and Codes (LOINC) database](https://loinc.org/).
+  .
 
 > **Note**: The RxNorm and RxClass APIs used inside RxNav-in-a-Box must be run locally. Read more
 > at [Classifying prescriptions](/docs/prescriptions.md).
@@ -54,18 +56,21 @@ memory:
    Intensive Care Unit_ (version 1.0.1)
    from [physionet.org](https://physionet.org/content/glucose-management-mimic/1.0.1/#files-panel), and uncompress it in
    the directory as the clone of this repository.
-3. Follow the instructions on [mimic.mit.edu](https://mimic.mit.edu/docs/gettingstarted/local/) to
+3. Download the `.zip` file containing the LOINC database from [loinc.org](https://loinc.org/downloads/) and uncompress
+   it in the same directory as the clone of this repository.
+4. Follow the instructions on [mimic.mit.edu](https://mimic.mit.edu/docs/gettingstarted/local/) to
    install [MIMIC-III](https://physionet.org/content/mimiciii/1.4/) to a local [PostgreSQL](https://www.postgresql.org)
-   database.
-4. Set up your Python virtual environment.
-5. Install required packages using `pip install -r requirements.txt`.
-5. Set your environment variables in [`.env`](.env).
-6. Run the curation module inside your virtual environment using `python -m curation`.
+   database. Update the `.env` file with your database credentials.
+5. Set up your Python virtual environment.
+6. Install required packages using `pip install -r requirements.txt`.
+7. Set your environment variables in [`.env`](.env).
+8. Run the `curation` module inside your virtual environment using `python -m curation`.
 
 ## Documentation
 
 - [Curating demographics](docs/demographics.md)
 - [Classifying prescriptions using RxNorm and RxClass](docs/prescriptions.md)
+- [Classifying lab events using LOINC](docs/labevents.md)
 - [Calculating weights and heights](docs/calculating-weights-and-heights.md)
 - [Caching](docs/caching.md)
 
