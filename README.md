@@ -15,7 +15,6 @@ To run this project locally, the following is required:
   Language System (UMLS) license
   agreement.
 - Access to the [Logical Observation Identifiers Names and Codes (LOINC) database](https://loinc.org/).
-  .
 
 > **Note**: The RxNorm and RxClass APIs used inside RxNav-in-a-Box must be run locally. Read more
 > at [Classifying prescriptions](/docs/prescriptions.md).
