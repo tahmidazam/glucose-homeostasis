@@ -1,6 +1,8 @@
 Data curation repository based on [`4yr_project_glucose`](https://github.com/GilesLuo/4yr_project_glucose)
 by [Zhiyao Luo](https://github.com/GilesLuo).
 
+> **Update**: This project was presented at the Institute of Biomedical Engineering, University of Oxford on Sep 2, 2024. You can find the presentation slides [here](https://www.figma.com/deck/20kLqTzfl5IgFfFQVMMEbr/Visitor-Day-Sep-2-2024).
+
 ## Prerequisites
 
 To run this project locally, the following is required:
