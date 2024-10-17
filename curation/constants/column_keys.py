@@ -7,6 +7,7 @@ class ColumnKey(Enum):
     ICU_STAY_ID: str = "icustay_id"
     TIMER: str = "timer"
     IN_TIME: str = "intime"
+    OUT_TIME: str = "outtime"
     DATE_OF_BIRTH: str = "dob"
     LENGTH_OF_STAY: str = "los"
     VALUE_NUMERICAL: str = "valuenum"
@@ -25,4 +26,4 @@ class ColumnKey(Enum):
     HEIGHT: str = "height"
     WEIGHT: str = "weight"
 
-    RXCUI = 'rxcui'
+    RXCUI = "rxcui"

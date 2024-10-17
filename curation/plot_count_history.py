@@ -4,14 +4,22 @@ from pathlib import Path
 from matplotlib import pyplot as plt
 
 
-def plot_count_history(count_history: tuple[tuple[str, int], ...], title: str, upper_x_lim: int, left=float):
+def plot_count_history(
+    count_history: tuple[tuple[str, int], ...], title: str, upper_x_lim: int, left=float
+):
+    path = Path(f"./../docs/plots/{title.lower().replace(' ', '_')}.png")
+
+    if path.is_file():
+        logging.info(f"Skipped plotting {title}, already exists")
+        return
+
     labels, values = zip(*count_history[::-1])
 
     plt.figure(figsize=(8, 4))
 
     plt.title(title)
 
-    bars = plt.barh(labels, values, color='blue')
+    bars = plt.barh(labels, values, color="blue")
 
     plt.subplots_adjust(left=left)
     plt.xlim(0, upper_x_lim)
@@ -24,20 +32,18 @@ def plot_count_history(count_history: tuple[tuple[str, int], ...], title: str, u
                 bar.get_width() + 0.0125 * upper_x_lim,
                 bar.get_y() + bar.get_height() / 2,
                 f"{int(bar.get_width())} ({int(bar.get_width() - next_bar.get_width())})",
-                ha='left',
-                va='center'
+                ha="left",
+                va="center",
             )
         else:
             plt.text(
                 bar.get_width() + 0.0125 * upper_x_lim,
                 bar.get_y() + bar.get_height() / 2,
                 f"{int(bar.get_width())} ",
-                ha='left',
-                va='center'
+                ha="left",
+                va="center",
             )
 
-    path = Path(f"./../docs/plots/{title.lower().replace(' ', '_')}.png")
-
     plt.savefig(path)
-    
+
     logging.info(f"Saved '{title}' plot to {path}")

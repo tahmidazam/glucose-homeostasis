@@ -1,5 +1,4 @@
 import argparse
-
 import numpy
 import pandas as pd
 import sqlalchemy
@@ -7,13 +6,13 @@ from dotenv import dotenv_values
 
 from config import config_from_dict, config_to_mimic_db_url
 from curation.config import Config
+from curation.demographics import generate_df_demographics
+from curation.read_glucose_insulin_dataset import read_glucose_insulin_dataset
 from define_arguments import define_arguments
 from set_log_level import set_log_level
 from verify_cache_directory import verify_cache_directory
-from .demographics import generate_df_demographics
 from .lab import generate_df_labevents
 from .prescriptions import generate_df_prescriptions
-from .read_glucose_insulin_dataset import read_glucose_insulin_dataset
 
 if __name__ == "__main__":
     # Define command-line arguments.
@@ -41,17 +40,11 @@ if __name__ == "__main__":
     subject_ids: tuple
     hospital_admission_ids: tuple[numpy.int64]
 
+    # Read the glucose insulin dataset.
     df_glucose_insulin, icu_stay_ids, subject_ids, hospital_admission_ids = (
         read_glucose_insulin_dataset(
             max_identifier_count=main_argument_namespace.max_identifier_count
         )
-    )
-
-    df_labevents = generate_df_labevents(
-        engine=engine,
-        config=config,
-        subject_ids=subject_ids,
-        chunk_size=main_argument_namespace.chunk_size,
     )
 
     # Generate the demographics dataframe from the queried tables.
@@ -63,8 +56,17 @@ if __name__ == "__main__":
         icu_stay_ids=icu_stay_ids,
     )
 
+    # Generate the prescriptions dataframe.
     df_prescriptions: pd.DataFrame = generate_df_prescriptions(
         engine=engine,
+    )
+
+    # Generate the lab events dataframe.
+    df_labevents = generate_df_labevents(
+        engine=engine,
+        config=config,
+        subject_ids=subject_ids,
+        chunk_size=main_argument_namespace.chunk_size,
     )
 
     exit(0)

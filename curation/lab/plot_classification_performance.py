@@ -7,6 +7,12 @@ from matplotlib import pyplot as plt
 
 def plot_classification_performance(df_labevents: pd.DataFrame):
     title: str = "labevent_classification_performance"
+    path = Path(f"./../docs/plots/{title}.png")
+
+    if path.is_file():
+        logging.info(f"Skipped plotting {title}, already exists")
+        return
+
     len_df_prescriptions = len(df_labevents)
     proportions: tuple[tuple[str, float], ...] = ()
 
@@ -46,6 +52,5 @@ def plot_classification_performance(df_labevents: pd.DataFrame):
             va="bottom",
         )
 
-    path = Path(f"./../docs/plots/{title}.png")
     plt.savefig(path)
     logging.info(f"Saved '{title}' plot to {path}")
