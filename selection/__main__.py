@@ -79,4 +79,6 @@ if __name__ == "__main__":
         ColumnKey.ICU_STAY_ID.value
     ).unique()
 
+    x = df_hyperglycaemic_dataset.dropna(subset=["input_hrs"])
+
     exit(0)
