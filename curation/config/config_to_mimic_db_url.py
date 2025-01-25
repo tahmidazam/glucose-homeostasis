@@ -1,4 +1,4 @@
-from config import Config
+from curation.config import Config
 
 
 def config_to_mimic_db_url(config: Config) -> str:
